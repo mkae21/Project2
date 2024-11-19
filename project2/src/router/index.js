@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeMainView from '@/views/HomeMain.vue'
+import WishList from '@/views/WishList.vue'
 import HomeSineIn from '@/components/Sine-in.vue'
-
 const routes = [
   {
     path: '/',
@@ -21,7 +21,7 @@ const routes = [
   {
     path: '/wishlist',
     name: 'wishlist',
-    component: HomeMainView
+    component: WishList
   }
 ]
 
