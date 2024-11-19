@@ -31,7 +31,7 @@
         </button>
         <nav>
           <ul>
-            <li><router-link to="/" @click="toggleMobileMenu">홈</router-link></li>
+            <li><router-link to="/home" @click="toggleMobileMenu">홈</router-link></li>
             <li><router-link to="/popular" @click="toggleMobileMenu">대세 콘텐츠</router-link></li>
             <li><router-link to="/wishlist" @click="toggleMobileMenu">내가 찜한 리스트</router-link></li>
             <li><router-link to="/search" @click="toggleMobileMenu">찾아보기</router-link></li>
