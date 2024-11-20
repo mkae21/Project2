@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- Angular의 <router-outlet>에 대응하는 Vue의 <router-view> -->
     <router-view />
   </div>
 </template>
