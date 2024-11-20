@@ -1,28 +1,35 @@
 <template>
   <div id="app">
+    <!-- Header Component -->
     <HeaderComponent />
+
+    <!-- Container for the main content -->
     <div id="container">
-      <router-view />
+      <router-view /> <!-- 자식 컴포넌트를 렌더링 -->
     </div>
   </div>
 </template>
 
 <script>
-import HeaderComponent from "@/layouts/HeaderComponent.vue" // Header 컴포넌트를 임포트
+import HeaderComponent from "@/layouts/HeaderComponent.vue";
 
 export default {
   name: "HomeComponent",
   components: {
-    HeaderComponent
+    HeaderComponent,
   }
 };
 </script>
 
 <style scoped>
 #app {
-  width: 95vw; /* svw는 일부 브라우저에서 지원되지 않을 수 있으므로 vw로 대체 */
-  height: 95vh;
+  width: 95svw;
+  height: 95svh;
   overflow-x: hidden;
   margin: auto;
+}
+
+#container {
+  margin-top: 10px;
 }
 </style>

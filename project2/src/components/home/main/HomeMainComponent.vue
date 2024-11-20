@@ -1,83 +1,93 @@
 <template>
-    <div class="home">
-        <BannerComponent :movie="featuredMovie" />
+  <div class="home">
+    <!-- Featured Movie Banner -->
+    <BannerComponent :movie="featuredMovie" />
 
-        <MovieRowComponent title="인기 영화" :fetchUrl="popularMoviesUrl" />
-        <MovieRowComponent title="최신 영화" :fetchUrl="newReleasesUrl" />
-        <MovieRowComponent title="액션 영화" :fetchUrl="actionMoviesUrl" />
-    </div>
+    <!-- Movie Rows -->
+    <MovieRowComponent title="인기 영화" :fetchUrl="popularMoviesUrl" />
+    <MovieRowComponent title="최신 영화" :fetchUrl="newReleasesUrl" />
+    <MovieRowComponent title="액션 영화" :fetchUrl="actionMoviesUrl" />
+  </div>
 </template>
 
 <script>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import URLService from '@/util/movie/URL'
-import BannerComponent from '@/views/home-main/BannerComponent.vue'
-import MovieRowComponent from '@/views/home-main/MovieRowComponent.vue'
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import URLService from '@/util/movie/URLService.js';
+import BannerComponent from "@/views/home-main/BannerComponent.vue";
+import MovieRowComponent from "@/views/home-main/MovieRowComponent.vue";
 
 export default {
-  name: 'HomeMainComponent',
+  name: "HomeMainComponent",
   components: {
     BannerComponent,
-    MovieRowComponent
+    MovieRowComponent,
   },
-  setup () {
-    const urlService = new URLService()
-    const apiKey = localStorage.getItem('TMDb-Key') || ''
+  setup() {
+    const apiKey = localStorage.getItem("TMDb-Key") || "";
 
-    const featuredMovie = ref(null)
-    const popularMoviesUrl = ref(urlService.getURL4PopularMovies(apiKey))
-    const newReleasesUrl = ref(urlService.getURL4ReleaseMovies(apiKey))
-    const actionMoviesUrl = ref(urlService.getURL4GenreMovies(apiKey, '28'))
+    // Reactive data
+    const featuredMovie = ref(null);
+    const popularMoviesUrl = ref(URLService.getURL4PopularMovies(apiKey));
+    const newReleasesUrl = ref(URLService.getURL4ReleaseMovies(apiKey));
+    const actionMoviesUrl = ref(URLService.getURL4GenreMovies(apiKey, "28"));
 
+    // Load featured movie
     const loadFeaturedMovie = async () => {
-      featuredMovie.value = await urlService.fetchFeaturedMovie(apiKey)
-    }
+      try {
+        featuredMovie.value = await URLService.fetchFeaturedMovie(apiKey);
+      } catch (error) {
+        console.error("Error loading featured movie:", error);
+      }
+    };
 
+    // Scroll listener for header styling
     const initializeScrollListener = () => {
       const onScroll = () => {
-        const header = document.querySelector('.app-header')
+        const header = document.querySelector(".app-header");
         if (window.scrollY > 50) {
-          header?.classList.add('scrolled')
+          header?.classList.add("scrolled");
         } else {
-          header?.classList.remove('scrolled')
+          header?.classList.remove("scrolled");
         }
-      }
-      window.addEventListener('scroll', onScroll)
+      };
+      window.addEventListener("scroll", onScroll);
+
+      // Cleanup function
       return () => {
-        window.removeEventListener('scroll', onScroll)
-      }
-    }
+        window.removeEventListener("scroll", onScroll);
+      };
+    };
+
+    let cleanupScroll;
 
     onMounted(() => {
-      loadFeaturedMovie()
-      initializeScrollListener()
-    })
+      loadFeaturedMovie();
+      cleanupScroll = initializeScrollListener();
+    });
 
     onBeforeUnmount(() => {
-      initializeScrollListener()() // Remove event listener
-    })
+      cleanupScroll?.();
+    });
 
     return {
       featuredMovie,
       popularMoviesUrl,
       newReleasesUrl,
-      actionMoviesUrl
-    }
-  }
-}
+      actionMoviesUrl,
+    };
+  },
+};
 </script>
 
 <style scoped>
 .home {
-display: block
+  display: block;
+  padding: 20px;
+  background-color: #141414;
 }
 
 html,
 body {
-overflow-y: scroll !important
-}
-
-body {
-background-color: #141414 !important
+  overflow-y: scroll;
 }
 </style>
