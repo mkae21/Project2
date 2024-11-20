@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeMainView from '@/views/HomeMain.vue'
-import WishList from '@/views/WishList.vue'
 import HomeSineIn from '@/components/Sine-in.vue'
 const routes = [
   {
@@ -17,12 +16,8 @@ const routes = [
     path: '/popular',
     name: 'popular',
     component: HomeMainView
-  },
-  {
-    path: '/wishlist',
-    name: 'wishlist',
-    component: WishList
   }
+
 ]
 
 const router = createRouter({
