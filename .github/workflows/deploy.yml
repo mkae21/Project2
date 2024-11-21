@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 저장소 체크아웃
+      # 1. 저장소 체크아웃 
       - name: Checkout source code
         uses: actions/checkout@v3
 
