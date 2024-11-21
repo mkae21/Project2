@@ -1,3 +1,11 @@
+on:
+  # 1. master 브랜치로 push될 경우
+  push:
+    branches: [ master ]
+  # 2. master 브랜치로 PR가 발생할 경우
+  pull_request:
+    branches: [ master ]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
