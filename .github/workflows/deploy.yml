@@ -13,10 +13,6 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      # 2. 디렉터리 구조 확인
-      - name: List project files
-        run: ls -R
-
       # 3. Node.js 환경 설정
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -25,17 +21,17 @@ jobs:
       
       # 4. 패키지 설치
       - name: Install dependencies
-        working-directory: ./Project2/project2
+        working-directory: ./project2
         run: npm install
       
       # 5. 테스트 실행
       - name: Test unit
-        working-directory: ./Project2/project2
+        working-directory: ./project2
         run: npm run test:unit
       
       # 6. 빌드 실행
       - name: Build Page
-        working-directory: ./Project2/project2
+        working-directory: ./project2
         run: npm run build
         env:
           NODE_ENV: production
