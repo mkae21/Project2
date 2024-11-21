@@ -8,7 +8,7 @@ import HomeSearchComponent from '../components/search/HomeSearchComponent.vue'
 
 const routes = [
   {
-    path: '/', // 부모 컴포넌트 경로
+    path: '/Project2', // 부모 컴포넌트 경로
     component: HomeComponent,
     children: [
       {

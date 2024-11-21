@@ -8,10 +8,10 @@
         </div>
         <nav class="nav-links desktop-nav">
           <ul>
-            <li><router-link to="/">홈</router-link></li>
-            <li><router-link to="/popular">대세 콘텐츠</router-link></li>
-            <li><router-link to="/wishlist">내가 찜한 리스트</router-link></li>
-            <li><router-link to="/search">찾아보기</router-link></li>
+            <li><router-link to="/Project2">홈</router-link></li>
+            <li><router-link to="/Project2/popular">대세 콘텐츠</router-link></li>
+            <li><router-link to="/Project2/wishlist">내가 찜한 리스트</router-link></li>
+            <li><router-link to="/Project2/search">찾아보기</router-link></li>
           </ul>
         </nav>
       </div>
@@ -31,10 +31,10 @@
         </button>
         <nav>
           <ul>
-            <li><router-link to="/" @click="toggleMobileMenu">홈</router-link></li>
-            <li><router-link to="/popular" @click="toggleMobileMenu">대세 콘텐츠</router-link></li>
-            <li><router-link to="/wishlist" @click="toggleMobileMenu">내가 찜한 리스트</router-link></li>
-            <li><router-link to="/search" @click="toggleMobileMenu">찾아보기</router-link></li>
+            <li><router-link to="/Project2" @click="toggleMobileMenu">홈</router-link></li>
+            <li><router-link to="/Project2/popular" @click="toggleMobileMenu">대세 콘텐츠</router-link></li>
+            <li><router-link to="/Project2/wishlist" @click="toggleMobileMenu">내가 찜한 리스트</router-link></li>
+            <li><router-link to="/Project2/search" @click="toggleMobileMenu">찾아보기</router-link></li>
           </ul>
         </nav>
       </div>
@@ -229,5 +229,5 @@ export default {
       font-size: 1.15rem !important;
     }
   }
-  
+
   </style>
