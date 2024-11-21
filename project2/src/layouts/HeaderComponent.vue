@@ -229,5 +229,5 @@ export default {
       font-size: 1.15rem !important;
     }
   }
-  
+
   </style>
