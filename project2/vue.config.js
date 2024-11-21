@@ -7,6 +7,6 @@ module.exports = defineConfig({
     config.module.rules.delete("eslint");
   },
   lintOnSave: false,
-  publicPath: '/<repository_name>',
-  outputDir: 'docs'
+  publicPath: '/Project2',
+  outputDir: 'dist'
 });
