@@ -1,8 +1,6 @@
 on:
-  # 1. main 브랜치로 push될 경우
   push:
     branches: [ main ]
-  # 2. master 브랜치로 PR가 발생할 경우
   pull_request:
     branches: [ main ]
 
@@ -15,29 +13,36 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      # 2. node.js 환경설정
+      # 2. 디렉터리 구조 확인
+      - name: List project files
+        run: ls -R
+
+      # 3. Node.js 환경 설정
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
       
-      # 3. 패키지 설치
+      # 4. 패키지 설치
       - name: Install dependencies
+        working-directory: ./Project2/project2
         run: npm install
       
-      # 4. 테스트
+      # 5. 테스트 실행
       - name: Test unit
+        working-directory: ./Project2/project2
         run: npm run test:unit
       
-      # 5. 빌드
+      # 6. 빌드 실행
       - name: Build Page
+        working-directory: ./Project2/project2
         run: npm run build
         env:
           NODE_ENV: production
       
-      # 6. gh-pages로 배포
+      # 7. gh-pages로 배포
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./Project2/project2/dist
