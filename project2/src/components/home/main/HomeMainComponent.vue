@@ -24,7 +24,7 @@ export default {
   },
   //상태와 로직 정의
   setup () {
-    const apiKey = localStorage.getItem("TMDb-Key") || "b1907f9b9967490f278a974270b85f60";
+    const apiKey = localStorage.getItem("TMDb-Key") || "";
 
     // Reactive data
     const featuredMovie = ref(null);
