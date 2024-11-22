@@ -16,9 +16,9 @@ import HeaderComponent from "@/layouts/HeaderComponent.vue";
 export default {
   name: "HomeComponent",
   components: {
-    HeaderComponent,
+    HeaderComponent
   }
-};
+}
 </script>
 
 <style scoped>

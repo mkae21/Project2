@@ -12,7 +12,7 @@
 
 <script>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import URLService from '@/util/movie/URLService.js';
+import URLService from '@/util/movie/URLService.js'
 import BannerComponent from "@/views/home-main/BannerComponent.vue";
 import MovieRowComponent from "@/views/home-main/MovieRowComponent.vue";
 
@@ -20,10 +20,11 @@ export default {
   name: "HomeMainComponent",
   components: {
     BannerComponent,
-    MovieRowComponent,
+    MovieRowComponent
   },
-  setup() {
-    const apiKey = localStorage.getItem("TMDb-Key") || "";
+  //상태와 로직 정의
+  setup () {
+    const apiKey = localStorage.getItem("TMDb-Key") || "b1907f9b9967490f278a974270b85f60";
 
     // Reactive data
     const featuredMovie = ref(null);
