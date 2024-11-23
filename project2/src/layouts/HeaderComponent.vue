@@ -2,13 +2,13 @@
     <header class="app-header" :class="{ scrolled: isScrolled }">
       <div class="header-left">
         <div class="logo">
-          <router-link to="/">
+          <router-link to="/Project2">
             <font-awesome-icon :icon="['fas', 'ticket']" style="height: 100%; color: #E50914;" />
           </router-link>
         </div>
         <nav class="nav-links desktop-nav">
           <ul>
-            <li><router-link to="/Project2/home">홈</router-link></li>
+            <li><router-link to="/Project2">홈</router-link></li>
             <li><router-link to="/Project2/popular">대세 콘텐츠</router-link></li>
             <li><router-link to="/Project2/wishlist">내가 찜한 리스트</router-link></li>
             <li><router-link to="/Project2/search">찾아보기</router-link></li>
