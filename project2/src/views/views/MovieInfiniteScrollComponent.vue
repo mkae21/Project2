@@ -41,9 +41,8 @@
 </div>
 </template>
 
-
 <script>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import WishlistService from '@/util/movie/WishlistService.js';
 
@@ -67,7 +66,8 @@ export default {
       default: 100,
     },
   },
-  setup(props) {
+
+  setup (props) {
     const movies = ref([]);
     const currentPage = ref(1);
     const rowSize = ref(4);
@@ -99,7 +99,7 @@ export default {
           page: currentPage.value,
           per_page: 10,
           ...(props.genreCode !== '0' && { with_genres: props.genreCode }),
-        };
+        }
 
         const { data } = await axios.get(url, { params });
         const newMovies = data.results;
@@ -118,7 +118,7 @@ export default {
                 ? movie.vote_average <= 4
                 : movie.vote_average >= props.voteEverage &&
                   movie.vote_average < props.voteEverage + 1
-            );
+            )
 
           movies.value = [...movies.value, ...filteredMovies];
           currentPage.value++;
@@ -131,6 +131,23 @@ export default {
         isLoading.value = false;
       }
     };
+
+    watch(
+      () => [props.genreCode, props.sortingOrder, props.voteEverage],
+      ([newGenreCode, newSortingOrder, newVoteEverage]) => {
+        console.log('Props changed:', {
+          newGenreCode,
+          newSortingOrder,
+          newVoteEverage,
+        });
+
+        // Reset movies and fetch new data
+        movies.value = [];
+        currentPage.value = 1;
+        hasMore.value = true;
+        fetchMovies();
+      }
+    );
 
     const setupIntersectionObserver = () => {
       observer = new IntersectionObserver(
