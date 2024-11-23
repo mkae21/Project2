@@ -16,9 +16,12 @@ import HeaderComponent from "@/layouts/HeaderComponent.vue";
 export default {
   name: "HomeComponent",
   components: {
-    HeaderComponent,
+    HeaderComponent
+  },
+  mounted () {
+    localStorage.setItem("TMDb-Key", "b1907f9b9967490f278a974270b85f60")
   }
-};
+}
 </script>
 
 <style scoped>

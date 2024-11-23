@@ -2,7 +2,7 @@
     <header class="app-header" :class="{ scrolled: isScrolled }">
       <div class="header-left">
         <div class="logo">
-          <router-link to="/">
+          <router-link to="/Project2">
             <font-awesome-icon :icon="['fas', 'ticket']" style="height: 100%; color: #E50914;" />
           </router-link>
         </div>

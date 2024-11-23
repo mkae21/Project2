@@ -8,7 +8,7 @@ class WishlistService {
   }
 
   // 로컬 스토리지에서 위시리스트를 로드
-  loadWishlist() {
+  loadWishlist () {
     const storedWishlist = localStorage.getItem('movieWishlist');
     if (storedWishlist) {
       this.wishlist.value = JSON.parse(storedWishlist);
@@ -16,12 +16,12 @@ class WishlistService {
   }
 
   // 위시리스트를 로컬 스토리지에 저장
-  saveWishlist() {
+  saveWishlist () {
     localStorage.setItem('movieWishlist', JSON.stringify(this.wishlist.value));
   }
 
   // 위시리스트에 영화 추가/제거
-  toggleWishlist(movie) {
+  toggleWishlist (movie) {
     const index = this.wishlist.value.findIndex(item => item.id === movie.id);
 
     if (index === -1) {
@@ -36,12 +36,12 @@ class WishlistService {
   }
 
   // 영화가 위시리스트에 있는지 확인
-  isInWishlist(movieId) {
+  isInWishlist (movieId) {
     return this.wishlist.value.some(item => item.id === movieId);
   }
 
   // 현재 위시리스트 반환
-  getCurrentWishlist() {
+  getCurrentWishlist () {
     return this.wishlist.value;
   }
 }
