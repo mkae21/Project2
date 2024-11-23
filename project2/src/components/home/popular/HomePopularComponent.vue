@@ -35,7 +35,7 @@
   </template>
   
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import URLService from "@/util/movie/URLService.js"; // 경로를 프로젝트 구조에 맞게 수정
@@ -47,10 +47,10 @@ export default {
   components: {
     FontAwesomeIcon,
     MovieGridComponent,
-    MovieInfiniteScrollComponent,
+    MovieInfiniteScrollComponent
   },
   setup () {
-    const apiKey = localStorage.getItem("TMDb-Key") || "";
+    const apiKey = localStorage.getItem("TMDb-Key") || "default";
     const currentView = ref("grid");
     const fetchURL = ref(URLService.getURL4PopularMovies(apiKey));
 
