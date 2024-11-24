@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div v-if="isReady" id="app">
     <!-- Header Component -->
     <HeaderComponent />
 
@@ -16,12 +16,21 @@ import HeaderComponent from "@/layouts/HeaderComponent.vue";
 export default {
   name: "HomeComponent",
   components: {
-    HeaderComponent
+    HeaderComponent,
   },
-  mounted () {
-    localStorage.setItem("TMDb-Key", "b1907f9b9967490f278a974270b85f60")
-  }
-}
+  data() {
+    return {
+      isReady: false, // 렌더링 준비 상태
+    };
+  },
+  created() {
+    // 로컬 스토리지에 데이터를 설정
+    localStorage.setItem("TMDb-Key", "b1907f9b9967490f278a974270b85f60");
+
+    // 설정 완료 후 상태 플래그 변경,렌더링 순서 제어
+    this.isReady = true;
+  },
+};
 </script>
 
 <style scoped>
