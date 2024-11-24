@@ -1,89 +1,82 @@
 <template>
-    <div class="popular-container">
-      <!-- View Toggle Buttons -->
-      <div class="view-toggle">
-        <button
-          @click="setView('grid')"
-          :class="{ active: currentView === 'grid' }"
-        >
-          <font-awesome-icon :icon="faTh" />
-        </button>
-        <button
-          @click="setView('list')"
-          :class="{ active: currentView === 'list' }"
-        >
-          <font-awesome-icon :icon="faBars" />
-        </button>
-      </div>
-  
-      <!-- Grid View -->
-      <MovieGridComponent
-        v-if="currentView === 'grid'"
-        title="인기 영화"
-        :fetchUrl="fetchURL"
-      />
-  
-      <!-- Infinite Scroll View -->
-      <MovieInfiniteScrollComponent
-        v-if="currentView === 'list'"
-        :apiKey="apiKey"
-        genreCode="28"
-        sortingOrder="all"
-        :voteEverage="-1"
-      />
+  <div class="popular-container">
+    <div class="view-toggle">
+      <button @click="setView('grid')" :class="{ active: currentView === 'grid' }">
+        <font-awesome-icon :icon="['fas', 'th']" />
+      </button>
+      <button @click="setView('list')" :class="{ active: currentView === 'list' }">
+        <font-awesome-icon :icon="['fas', 'bars']" />
+      </button>
     </div>
-  </template>
-  
+
+    <MovieGridComponent v-if="fetchUrl" v-show="currentView === 'grid'" :fetchUrl="fetchUrl" />
+    <MovieInfiniteScrollComponent
+      v-if="currentView === 'list'"
+      :apiKey="apiKey"
+      :genreCode="'28'"
+      :sortingOrder="'all'"
+      :voteEverage="-1" 
+    />
+  </div>
+</template>
+
 <script>
-import { ref, onMounted } from "vue";
-import { faTh, faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import URLService from "@/util/movie/URLService.js"; // 경로를 프로젝트 구조에 맞게 수정
-import MovieGridComponent from "@/views/views/MovieGridComponent.vue";
-import MovieInfiniteScrollComponent from "@/views/views/MovieInfiniteScrollComponent.vue";
-  
+import { ref, onMounted } from 'vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTh, faBars } from '@fortawesome/free-solid-svg-icons';
+import MovieGridComponent from '@/views/views/MovieGridComponent.vue';
+import MovieInfiniteScrollComponent from '@/views/views/MovieInfiniteScrollComponent.vue';
+import URLService from '@/util/movie/URLService.js';
+
+library.add(faTh, faBars);
+
 export default {
-  name: "HomePopularComponent",
+  name: 'HomePopular',
   components: {
     FontAwesomeIcon,
     MovieGridComponent,
     MovieInfiniteScrollComponent
   },
   setup () {
-    const apiKey = localStorage.getItem("TMDb-Key") || "default";
-    const currentView = ref("grid");
-    const fetchURL = ref(URLService.getURL4PopularMovies(apiKey));
+    const apiKey = ref(localStorage.getItem('TMDb-Key') || '');
+    const currentView = ref('grid');
+    const fetchUrl = ref('');
 
-    // Methods to toggle views
     const setView = (view) => {
       currentView.value = view;
-      if (view === "grid") {
+      if (view === 'grid') {
         disableScroll();
       } else {
         enableScroll();
       }
     };
 
-    // Methods to manage body scroll
     const disableScroll = () => {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     };
 
     const enableScroll = () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
 
-    onMounted(() => {
+    onMounted(async () => {
       disableScroll();
-    });
+
+      try {
+        // URLService를 통해 URL 생성
+        fetchUrl.value = URLService.getURL4PopularMovies(apiKey.value);
+        console.log('Fetch URL in Parent Component before child:', fetchUrl.value); // 로그 추가
+      } catch (error) {
+        console.error('Error initializing HomePopular:', error)
+      }
+    })
 
     return {
-      faTh,
-      faBars,
       apiKey,
       currentView,
-      fetchURL,
-      setView,
+      fetchUrl,
+      setView
     };
   },
 };
@@ -91,6 +84,9 @@ export default {
 
 <style scoped>
 .popular-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
 }
 
@@ -112,11 +108,5 @@ export default {
 
 .view-toggle button.active {
   background-color: #535bf2;
-}
-
-@media (max-width: 768px) {
-  .view-toggle {
-    margin-top: 80px;
-  }
 }
 </style>
