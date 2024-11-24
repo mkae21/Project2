@@ -1,46 +1,73 @@
+<template>
+  <div class="movie-grid" ref="gridContainer">
+    <div :class="['grid-container', currentView]">
+      <div
+        v-for="(movieGroup, groupIndex) in visibleMovieGroups"
+        :key="`group-${groupIndex}`"
+        :class="['movie-row', { full: movieGroup.length === rowSize }]"
+      >
+        <div
+          v-for="movie in movieGroup"
+          :key="movie.id"
+          class="movie-card"
+          @mouseup="toggleWishlist(movie)"
+        >
+          <img :src="getImageUrl(movie.poster_path)" :alt="movie.title" />
+          <div class="movie-title">{{ movie.title }}</div>
+          <div v-if="isInWishlist(movie.id)" class="wishlist-indicator">👍</div>
+        </div>
+      </div>
+    </div>
+    <div class="pagination" v-if="totalPages > 1">
+      <button @click="prevPage" :disabled="currentPage === 1">&lt; 이전</button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">다음 &gt;</button>
+    </div>
+  </div>
+</template>
+
 <script>
-import { ref, computed ,onMounted, onUnmounted } from "vue";
-import axios from "axios";
-import WishlistService from "@/util/movie/WishlistService";
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import axios from 'axios';
+import WishlistService from '@/util/movie/WishlistService';
 
 export default {
-  name: "MovieGridComponent",
+  name: 'MovieGridComponent',
   props: {
     fetchUrl: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
-  setup(props) {
+  setup (props) {
     const movies = ref([]);
     const currentPage = ref(1);
     const rowSize = ref(4);
     const moviesPerPage = ref(20);
     const isMobile = ref(window.innerWidth <= 768);
-    const currentView = ref("grid");
+    const currentView = ref('grid');
     const gridContainer = ref(null);
     let wishlistTimer = null;
 
     // Fetch movies
     const fetchMovies = async () => {
       try {
-        const totalMoviesNeeded = 120;
-        const numberOfPages = Math.ceil(totalMoviesNeeded / 20);
-        let allMovies = [];
+        const totalMoviesNeeded = 120
+        const numberOfPages = Math.ceil(totalMoviesNeeded / 20)
+        let allMovies = []
 
         for (let page = 1; page <= numberOfPages; page++) {
           const response = await axios.get(props.fetchUrl, {
             params: {
               page,
-              per_page: moviesPerPage.value,
-            },
-          });
-          allMovies = [...allMovies, ...response.data.results];
+              per_page: moviesPerPage.value
+            }
+          })
+          allMovies = [...allMovies, ...response.data.results]
         }
-
-        movies.value = allMovies.slice(0, totalMoviesNeeded);
+        movies.value = allMovies.slice(0, totalMoviesNeeded)
       } catch (error) {
-        console.error("Error fetching movies:", error);
+        console.error('Error fetching movies:', error)
       }
     };
 
@@ -118,11 +145,11 @@ export default {
     onMounted(async () => {
       await fetchMovies();
       calculateLayout();
-      window.addEventListener("resize", handleResize);
+      window.addEventListener('resize', handleResize);
     });
 
     onUnmounted(() => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
       if (wishlistTimer) {
         clearTimeout(wishlistTimer);
       }
@@ -146,6 +173,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .wishlist-indicator {
   position: absolute;
@@ -272,4 +300,5 @@ export default {
     width: 60px;
   }
 }
+
 </style>
