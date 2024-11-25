@@ -35,7 +35,7 @@ import WishlistService from '@/util/movie/WishlistService';
 
 export default {
 name: 'MovieWishlistComponent',
-setup() {
+setup () {
     const gridContainer = ref(null);
     const rowSize = ref(4);
     const moviesPerPage = ref(20);
@@ -167,6 +167,7 @@ justify-content: space-between;
 display: flex;
 flex-direction: column;
 align-items: center;
+margin-top:50px;
 }
 
 .movie-row {

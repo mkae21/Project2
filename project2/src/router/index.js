@@ -1,43 +1,57 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeComponent from '../components/home/HomeComponent.vue'
-import HomeMainComponent from '../components/home/main/HomeMainComponent.vue'
-import SignInComponent from '../components/sign-in/SignInComponent.vue'
-import HomePopularComponent from '../components/home/popular/HomePopularComponent.vue'
-import HomeWishlistComponent from '../components/home/wishlist/HomeWishlistComponent.vue'
-import HomeSearchComponent from '../components/search/HomeSearchComponent.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeComponent from '../components/home/HomeComponent.vue';
+import HomeMainComponent from '../components/home/main/HomeMainComponent.vue';
+import SignInComponent from '../components/sign-in/SignInComponent.vue';
+import HomePopularComponent from '../components/home/popular/HomePopularComponent.vue';
+import HomeWishlistComponent from '../components/home/wishlist/HomeWishlistComponent.vue';
+import HomeSearchComponent from '../components/search/HomeSearchComponent.vue';
 
 const routes = [
   {
-    path: '/Project2', // 부모 컴포넌트 경로
+    path: '/Project2',
     component: HomeComponent,
     children: [
       {
-        path: '', // 부모 경로에 상대적인 기본 자식 경로
-        component: HomeMainComponent
+        path: '',
+        component: HomeMainComponent,
       },
       {
-        path: 'popular', // 부모 경로에 상대적인 'popular' 경로
-        component: HomePopularComponent
+        path: 'popular',
+        component: HomePopularComponent,
       },
       {
-        path: 'wishlist', // 부모 경로에 상대적인 'popular' 경로
-        component: HomeWishlistComponent
+        path: 'wishlist',
+        component: HomeWishlistComponent,
       },
       {
         path: 'search',
-        component: HomeSearchComponent
-      }
-    ]
+        component: HomeSearchComponent,
+      },
+    ],
+    meta: { requiresAuth: true }, // 인증이 필요한 라우트
   },
   {
     path: '/signin',
-    component: SignInComponent
-  }
+    component: SignInComponent,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
-})
+});
 
-export default router
+// 전역 네비게이션 가드 추가
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!isLoggedIn) {
+      alert('로그인이 필요합니다.');
+      return next('/signin'); // 로그인 페이지로 리다이렉트
+    }
+  }
+  next(); // 라우트 이동 허용
+});
+
+export default router;

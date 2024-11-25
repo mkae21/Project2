@@ -2,15 +2,16 @@ import axios from 'axios';
 
 class URLService {
   // 인기 영화 데이터 가져오기
-  async fetchFeaturedMovie(apiKey) {
+  async fetchFeaturedMovie (apiKey, limit = 5) {
     try {
       const response = await axios.get(
         `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=ko-KR`
       );
-      console.log(response.data.results[0]);
-      return response.data.results[0];
+
+      // 인기 영화 중 limit 개수만 반환
+      return response.data.results.slice(0, limit);
     } catch (error) {
-      console.error('Error fetching featured movie:', error);
+      console.error('Error fetching featured movies:', error);
       throw error;
     }
   }

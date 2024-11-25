@@ -9,7 +9,7 @@ export default {
   name: 'App',
   data () {
     return {
-      title: 'Angular-demo' // Angular의 title 속성
+      title: 'Movie' // Angular의 title 속성
     };
   },
   mounted () {

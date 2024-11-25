@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- Featured Movie Banner -->
-    <BannerComponent :movie="featuredMovie" />
+    <BannerComponent v-if="featuredMovies.length > 0" :movies="featuredMovies" />
 
     <!-- Movie Rows -->
     <MovieRowComponent title="인기 영화" :fetchUrl="popularMoviesUrl" />
@@ -27,7 +27,7 @@ export default {
     const apiKey = localStorage.getItem("TMDb-Key") || "";
 
     // Reactive data
-    const featuredMovie = ref(null);
+    const featuredMovies = ref([]);
     const popularMoviesUrl = ref(URLService.getURL4PopularMovies(apiKey));
     const newReleasesUrl = ref(URLService.getURL4ReleaseMovies(apiKey));
     const actionMoviesUrl = ref(URLService.getURL4GenreMovies(apiKey, "28"));
@@ -35,7 +35,9 @@ export default {
     // Load featured movie
     const loadFeaturedMovie = async () => {
       try {
-        featuredMovie.value = await URLService.fetchFeaturedMovie(apiKey);
+        const movies = await URLService.fetchFeaturedMovie(apiKey);
+        console.log("Fetched featured movies:", movies) // 데이터 확인용 로그
+        featuredMovies.value = movies.slice(0, 5)
       } catch (error) {
         console.error("Error loading featured movie:", error);
       }
@@ -50,34 +52,34 @@ export default {
         } else {
           header?.classList.remove("scrolled");
         }
-      };
+      }
       window.addEventListener("scroll", onScroll);
 
       // Cleanup function
       return () => {
         window.removeEventListener("scroll", onScroll);
-      };
-    };
+      }
+    }
 
     let cleanupScroll;
 
     onMounted(() => {
-      loadFeaturedMovie();
-      cleanupScroll = initializeScrollListener();
-    });
+      loadFeaturedMovie()
+      cleanupScroll = initializeScrollListener()
+    })
 
     onBeforeUnmount(() => {
-      cleanupScroll?.();
-    });
+      cleanupScroll?.()
+    })
 
     return {
-      featuredMovie,
+      featuredMovies,
       popularMoviesUrl,
       newReleasesUrl,
-      actionMoviesUrl,
-    };
-  },
-};
+      actionMoviesUrl
+    }
+  }
+}
 </script>
 
 <style scoped>

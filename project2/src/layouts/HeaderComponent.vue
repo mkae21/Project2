@@ -16,8 +16,11 @@
         </nav>
       </div>
       <div class="header-right">
-        <button class="icon-button" @click="removeKey">
+        <button class="icon-button" @click="loginValid">
           <font-awesome-icon :icon="['fas', 'user']" />
+        </button>
+        <button class="icon-button" @click="logOut">
+          <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" />
         </button>
         <button class="icon-button mobile-menu-button" @click="toggleMobileMenu">
           <font-awesome-icon :icon="['fas', 'bars']" />
@@ -46,9 +49,11 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUser, faTicket, faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faTicket, faBars, faTimes, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'; // 최신 버전에서는 이 경로가 맞습니다.
 
-library.add(faUser, faTicket, faBars, faTimes)
+library.add(faUser, faTicket, faBars, faTimes, faArrowRightFromBracket)
 
 export default {
   components: { FontAwesomeIcon },
@@ -61,9 +66,30 @@ export default {
       isScrolled.value = window.scrollY > 50
     }
 
-    const removeKey = () => {
-      localStorage.removeItem('TMDb-Key')
-      router.push('/signin')
+    const loginValid = () => {
+      if (!localStorage.getItem('isLoggedIn')) {
+        toast('로그인이 필요합니다.', { type: 'error' })
+        router.push('/signin')
+      }
+      else {
+        toast('로그인 되어있는 사용자: ' + localStorage.getItem('loggedInUser'), { type: 'success' })
+      }
+    }
+
+    const logOut = async () => {
+      try {
+        if (!localStorage.getItem('isLoggedIn')) {
+          toast('로그인이 되어있지 않습니다.', { type: 'error' })
+          return
+        }
+
+        localStorage.removeItem('isLoggedIn')
+        localStorage.removeItem('loggedInUser')
+        // await router.push('/signin') // 비동기로 이동 보장
+        toast('로그아웃 되었습니다.', { type: 'success' })
+      } catch (err) {
+        alert('Error navigating to /signin:', err);
+      }
     }
 
     const toggleMobileMenu = () => {
@@ -81,7 +107,8 @@ export default {
     return {
       isScrolled,
       isMobileMenuOpen,
-      removeKey,
+      loginValid,
+      logOut,
       toggleMobileMenu
     }
   }
