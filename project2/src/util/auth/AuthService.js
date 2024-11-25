@@ -2,7 +2,7 @@
 
 export default {
   // 로그인 메소드
-  tryLogin(email, password, saveToken = true) {
+  tryLogin (email, password, saveToken = true) {
     return new Promise((resolve, reject) => {
       const users = JSON.parse(localStorage.getItem('users') || '[]');
       const user = users.find(user => user.id === email && user.password === password);
@@ -20,7 +20,7 @@ export default {
   },
 
   // 회원가입 메소드
-  tryRegister(email, password) {
+  tryRegister (email, password) {
     return new Promise((resolve, reject) => {
       try {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
