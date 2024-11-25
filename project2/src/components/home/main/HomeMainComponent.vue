@@ -84,7 +84,7 @@ export default {
 .home {
   display: block;
   padding: 20px;
-  background-color: #141414;
+  background-color: #333;
 }
 
 html,
