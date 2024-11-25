@@ -1,98 +1,99 @@
 <template>
-    <div>
-      <div class="bg-image"></div>
-      <div class="container">
-        <div id="phone">
-          <div id="content-wrapper">
-            <div :class="['card', { hidden: !isLoginVisible }]" id="login">
-              <form @submit.prevent="handleLogin">
-                <h1>Sign in</h1>
-                <div class="input" :class="{ active: isEmailFocused || email }">
-                  <input
-                    id="email"
-                    type="email"
-                    v-model="email"
-                    @focus="focusInput('email')"
-                    @blur="blurInput('email')"
-                  />
-                  <label for="email">Username or Email</label>
-                </div>
-                <div class="input" :class="{ active: isPasswordFocused || password }">
-                  <input
-                    id="password"
-                    type="password"
-                    v-model="password"
-                    @focus="focusInput('password')"
-                    @blur="blurInput('password')"
-                  />
-                  <label for="password">Password</label>
-                </div>
-                <span class="checkbox remember">
-                  <input type="checkbox" id="remember" v-model="rememberMe" />
-                  <label for="remember" class="read-text">Remember me</label>
-                </span>
-                <span class="checkbox forgot">
-                  <a href="#">Forgot Password?</a>
-                </span>
-                <button :disabled="!isLoginFormValid">Login</button>
-              </form>
-              <a href="javascript:void(0)" class="account-check" @click="toggleCard">
-                Don't have an account? <b>Sign up</b>
-              </a>
-            </div>
-
-            <div :class="['card', { hidden: isLoginVisible }]" id="register">
-              <form @submit.prevent="handleRegister">
-                <h1>Sign up</h1>
-                <div class="input" :class="{ active: isRegisterEmailFocused || registerEmail }">
-                  <input
-                    id="register-email"
-                    type="email"
-                    v-model="registerEmail"
-                    @focus="focusInput('registerEmail')"
-                    @blur="blurInput('registerEmail')"
-                  />
-                  <label for="register-email">Email</label>
-                </div>
-                <div class="input" :class="{ active: isRegisterPasswordFocused || registerPassword }">
-                  <input
-                    id="register-password"
-                    type="password"
-                    v-model="registerPassword"
-                    @focus="focusInput('registerPassword')"
-                    @blur="blurInput('registerPassword')"
-                  />
-                  <label for="register-password">Password</label>
-                </div>
-                <div class="input" :class="{ active: isConfirmPasswordFocused || confirmPassword }">
-                  <input
-                    id="confirm-password"
-                    type="password"
-                    v-model="confirmPassword"
-                    @focus="focusInput('confirmPassword')"
-                    @blur="blurInput('confirmPassword')"
-                  />
-                  <label for="confirm-password">Confirm Password</label>
-                </div>
-                <span class="checkbox remember">
-                  <input type="checkbox" id="terms" v-model="acceptTerms" />
-                  <label for="terms" class="read-text">
-                    I have read <b>Terms and Conditions</b>
-                  </label>
-                </span>
-                <button :disabled="!isRegisterFormValid">Register</button>
-              </form>
-              <a href="javascript:void(0)" class="account-check" @click="toggleCard">
-                Already have an account? <b>Sign in</b>
-              </a>
-            </div>
+  <div>
+    <div class="bg-image"></div>
+    <div class="container">
+      <div id="phone">
+        <div id="content-wrapper">
+          <div :class="['card', { hidden: !isLoginVisible }]" id="login">
+            <form @submit.prevent="handleLogin">
+              <h1>Sign in</h1>
+              <div class="input" :class="{ active: isEmailFocused || email }">
+                <input
+                  id="email"
+                  type="email"
+                  v-model="email"
+                  @focus="focusInput('email')"
+                  @blur="blurInput('email')"
+                />
+                <label for="email">Username or Email</label>
+              </div>
+              <div class="input" :class="{ active: isPasswordFocused || password }">
+                <input
+                  id="password"
+                  type="password"
+                  v-model="password"
+                  @focus="focusInput('password')"
+                  @blur="blurInput('password')"
+                />
+                <label for="password">Password</label>
+              </div>
+              <span class="checkbox remember">
+                <input type="checkbox" id="remember" v-model="rememberMe" />
+                <label for="remember" class="read-text">Remember me</label>
+              </span>
+              <span class="checkbox forgot">
+                <a href="#">Forgot Password?</a>
+              </span>
+              <button :disabled="!isLoginFormValid">Login</button>
+            </form>
+            <a href="javascript:void(0)" class="account-check" @click="toggleCard">
+              {{ isLoginVisible ? "Don't have an account? Sign up" : "Already have an account? Sign in" }}
+            </a>
+          </div>
+          <div :class="['card', { hidden: isLoginVisible }]" id="register">
+            <form @submit.prevent="handleRegister">
+              <h1>Sign up</h1>
+              <div class="input" :class="{ active: isRegisterEmailFocused || registerEmail }">
+                <input
+                  id="register-email"
+                  type="email"
+                  v-model="registerEmail"
+                  @focus="focusInput('registerEmail')"
+                  @blur="blurInput('registerEmail')"
+                />
+                <label for="register-email">Email</label>
+              </div>
+              <div class="input" :class="{ active: isRegisterPasswordFocused || registerPassword }">
+                <input
+                  id="register-password"
+                  type="password"
+                  v-model="registerPassword"
+                  @focus="focusInput('registerPassword')"
+                  @blur="blurInput('registerPassword')"
+                />
+                <label for="register-password">Password</label>
+              </div>
+              <div class="input" :class="{ active: isConfirmPasswordFocused || confirmPassword }">
+                <input
+                  id="confirm-password"
+                  type="password"
+                  v-model="confirmPassword"
+                  @focus="focusInput('confirmPassword')"
+                  @blur="blurInput('confirmPassword')"
+                />
+                <label for="confirm-password">Confirm Password</label>
+              </div>
+              <span class="checkbox remember">
+                <input type="checkbox" id="terms" v-model="acceptTerms" />
+                <label for="terms" class="read-text">
+                  I have read <b>Terms and Conditions</b>
+                </label>
+              </span>
+              <button :disabled="!isRegisterFormValid">Register</button>
+            </form>
+            <a href="javascript:void(0)" class="account-check" @click="toggleCard">
+              {{ isLoginVisible ? "Don't have an account? Sign up" : "Already have an account? Sign in" }}
+            </a>
           </div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
 
 <script>
+import { useRouter } from 'vue-router'
+
 export default {
   data () {
     return {
@@ -118,10 +119,10 @@ export default {
     isRegisterFormValid () {
       return (
         this.registerEmail &&
-          this.registerPassword &&
-          this.confirmPassword &&
-          this.registerPassword === this.confirmPassword &&
-          this.acceptTerms
+        this.registerPassword &&
+        this.confirmPassword &&
+        this.registerPassword === this.confirmPassword &&
+        this.acceptTerms
       )
     }
   },
@@ -130,44 +131,83 @@ export default {
       this.isLoginVisible = !this.isLoginVisible
     },
     focusInput (inputName) {
-      this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = true
+      this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = true;
     },
     blurInput (inputName) {
-      this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = false
+      this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = false;
     },
     handleLogin () {
-      alert(`Logged in with email: ${this.email}`)
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(
+        (user) => user.email === this.email && user.password === this.password
+      )
+
+      if (user) {
+        alert(`Logged in successfully!`)
+        if (this.rememberMe) {
+          localStorage.setItem('isLoggedIn', 'true')
+          localStorage.setItem('loggedInUser', this.email)
+        }
+        this.$router.push('/project2')
+      } else {
+        alert('Invalid email or password.')
+      }
     },
     handleRegister () {
-      alert(`Registered with email: ${this.registerEmail}`)
-    }
-  }
-}
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+      if (users.some((user) => user.email === this.registerEmail)) {
+        alert('Email already registered.');
+        return;
+      }
+
+      users.push({ email: this.registerEmail, password: this.registerPassword });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Registration successful! You can now log in.');
+      this.toggleCard(); // Switch to login form
+    },
+    initializeLoginState () {
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+      const loggedInUser = localStorage.getItem('loggedInUser');
+
+      if (isLoggedIn === 'true' && loggedInUser) {
+        this.email = loggedInUser
+        this.rememberMe = true
+        this.$router.push('/project2')
+      }
+    },
+  },
+  setup () {
+    const router = useRouter();
+    return { router };
+  },
+  mounted () {
+    this.initializeLoginState();
+  },
+};
 </script>
 
-  <style scoped>
+<style scoped>
 
-:root {
+  :root {
   --container-start-x: -50%;
   --container-end-x: -90%;
   --container-start-y: -58%;
   --container-end-y: -42%;
   --container-start-color: #ECECEC;
   --container-end-color: #100f0f;
-}
-
- .bg-image {
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 0;
-   background-image: url('https://images.unsplash.com/photo-1507041957456-9c397ce39c97?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-   background-size: cover;
-   background-position: center;
- }
-
-.bg-image::before {
+  }
+  .bg-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://plus.unsplash.com/premium_photo-1723874470047-d7edf459c2a8?q=80&w=2888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  }
+  .bg-image::before {
   content: '';
   position: absolute;
   top: 0;
@@ -175,15 +215,13 @@ export default {
   right: 0;
   bottom: 0;
   background-color: rgba(27, 27, 27, 0.90);
-}
-
-a {
+  }
+  a {
   text-decoration:none;
   margin:0;
   padding: 0;
-}
-
-.container {
+  }
+  .container {
   height: 100svh;
   width: 100svw;
   position: absolute;
@@ -193,9 +231,8 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-#phone {
+  }
+  #phone {
   width: 50svw;
   max-width: 80dvh;
   max-height: 50dvh;
@@ -203,38 +240,32 @@ a {
   border-radius: min(2.5cqw, 2.0cqh);
   text-align: center;
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
-
-@media (max-height: 600px) {
+  }
+  @media (max-height: 600px) {
   #phone {
     transform: translate(-50%, -50%) scale(0.5); /* Scale down on small screens */
   }
-}
-
-@media (max-height: 400px) {
+  }
+  @media (max-height: 400px) {
   #phone {
     transform: translate(-50%, -50%) scale(0.3); /* Further scale down */
   }
-}
-
-#content-wrapper {
+  }
+  #content-wrapper {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   position:relative;
-}
-
-input {
+  }
+  input {
   font-size: 1.2rem;
   font-weight: 600;
   color: #000;
@@ -245,27 +276,23 @@ input {
   height: 2.5rem;
   padding: 0;
   margin: 0;
-}
-
-.read-text {
+  }
+  .read-text {
   display: flex;
   align-items: center;
   justify-content: center;
   text-indent: 10px; /* 원하는 들여쓰기 크기로 조정하세요 */
   color: #2b2b2b !important;
   font-weight: 900;
-}
-
-h1 {
+  }
+  h1 {
   font-size:24px;
   font-weight:800;
   text-align:center;
   margin-top:0;
-
   color:#272727;
-}
-
-button {
+  }
+  button {
   display:block;
   border-radius:50px;
   border:none;
@@ -277,23 +304,19 @@ button {
   letter-spacing:2px;
   box-shadow: 0px 10px 30px rgba(23,83,209,0.3);
   transition: all 0.2s ease;
-}
-
-button:hover {
+  }
+  button:hover {
   box-shadow: 0px 2px 10px rgba(23,83,209,0.4)
-}
-
-.input {
+  }
+  .input {
   position: relative;
   margin-top: 1.5rem;
-}
-
-.line-active {
+  }
+  .line-active {
   border-bottom:1px solid #2069ff !important;
   box-shadow: 0px 1px 0px #2069ff !important;
-}
-
-.input input {
+  }
+  .input input {
   background-color: transparent;
   border: none;
   border-bottom: 1px solid #9e9e9e;
@@ -307,9 +330,8 @@ button:hover {
   box-shadow: none;
   box-sizing: content-box;
   transition: all 0.3s ease;
-}
-
-.input label {
+  }
+  .input label {
   color: #9e9e9e;
   position: absolute;
   top: 0;
@@ -322,24 +344,20 @@ button:hover {
   text-align: initial;
   transform: translateY(12px);
   pointer-events: none;
-}
-
-.label-active {
+  }
+  .label-active {
   transform: translateY(-14px) scale(0.8) !important;
   transform-origin: 0 0 !important;
-}
-
-.label-blue {
+  }
+  .label-blue {
   color: #2069ff !important;
-}
-
-[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+  }
+  [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
   position: absolute;
   opacity: 0;
   pointer-events: none;
-}
-
-[type="checkbox"]+label {
+  }
+  [type="checkbox"]+label {
   position: relative;
   padding-left: 25px;
   cursor: pointer;
@@ -348,9 +366,8 @@ button:hover {
   line-height: 22px;
   font-size: 1rem;
   user-select: none;
-}
-
-[type="checkbox"]+label:before, [type="checkbox"]:not(.filled-in)+label:after {
+  }
+  [type="checkbox"]+label:before, [type="checkbox"]:not(.filled-in)+label:after {
   content: '';
   position: absolute;
   top: 0;
@@ -362,14 +379,12 @@ button:hover {
   border-radius: 3px;
   margin-top: 2px;
   transition: .2s;
-}
-
-[type="checkbox"]:not(.filled-in)+label:after {
+  }
+  [type="checkbox"]:not(.filled-in)+label:after {
   border: 0;
   transform: scale(0);
-}
-
-[type="checkbox"]:checked+label:before {
+  }
+  [type="checkbox"]:checked+label:before {
   top: -4px;
   left: -5px;
   width: 12px;
@@ -382,30 +397,25 @@ button:hover {
   backface-visibility: hidden;
   transform-origin: 100% 100%;
   border-radius: 1px;
-}
-
-.checkbox {
+  }
+  .checkbox {
   margin-top:2rem;
   display:block;
   margin-bottom:2rem;
-}
-
-.remember {
+  }
+  .remember {
   float:left;
-}
-
-.forgot {
+  }
+  .forgot {
   float:right;
-}
-
-.forgot a {
+  }
+  .forgot a {
   text-decoration:none;
   color:#000;
   font-weight:900;
   line-height: 22px;
-}
-
-.card {
+  }
+  .card {
   border-radius:10px;
   width:100%;
   max-width: 800px;
@@ -414,29 +424,23 @@ button:hover {
   padding:27px 30px 46px 30px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.16);
   transition: all 0.4s 0.1s ease;
-
   top: 50%;
-
   left: 50%;
   transform: translateX(-50%);
-}
-
-.card form {
+  }
+  .card form {
   transform:translateX(0px);
   transition: all 0.3s 0.4s ease;
-}
-
-#login {
+  }
+  #login {
   z-index:2;
   top: 5svh;
-}
-
-#register {
+  }
+  #register {
   z-index:2;
   top: 5svh;
-}
-
-.account-check {
+  }
+  .account-check {
   width:100%;
   text-align:center;
   position:absolute;
@@ -448,98 +452,78 @@ button:hover {
   color:#fff;
   padding:10px;
   transition: all 0.2s ease;
-}
-
-.account-check:active {
+  }
+  .account-check:active {
   color:#000;
   transform: translateY(2px);
-}
-
-#register.hidden {
+  }
+  #register.hidden {
   top:calc(5svh + 90px) !important;
   z-index:1;
-}
-
-#login.hidden {
+  }
+  #login.hidden {
   top:calc(5svh + 220px) !important;
   z-index:1;
-}
-
-.card.hidden {
+  }
+  .card.hidden {
   background-color:#2069ff;
   box-shadow: 0px 20px 40px rgba(23,83,209,0.8);
   padding:0px 30px 0px 30px;
-
-}
-
-#register.hidden form {
+  }
+  #register.hidden form {
   transform:translateX(20px);
-}
-
-#login.hidden form {
+  }
+  #login.hidden form {
   transform:translateX(-20px);
-}
-
-.hidden form {
+  }
+  .hidden form {
   opacity:0;
   transition: all 0.3s ease;
-}
-
-.hidden .account-check {
+  }
+  .hidden .account-check {
   opacity:1;
   visibility:visible;
   z-index:2;
   transition: all 0.2s ease;
-}
-
-.register-swap {
+  }
+  .register-swap {
   animation: register-swap 0.5s ease forwards;
-}
-
-.login-swap {
+  }
+  .login-swap {
   animation: login-swap 0.5s ease forwards;
-}
-
-.active > label {
+  }
+  .active > label {
   color: rgba(0, 0, 0, 0);
-}
-
-@keyframes register-swap {
+  }
+  @keyframes register-swap {
   0% {transform: translate(0%, 0%)}
   50% {transform: translate(30%, 0%);}
   0% {transform: translate(0%, 0%)}
-}
-
-@keyframes login-swap {
+  }
+  @keyframes login-swap {
   0% {transform: translate(0%, 0%)}
   50% {transform: translate(-70%, 0%);}
   0% {transform: translate(0%, 0%)}
-}
-
-@media (max-width: 768px) {
-
+  }
+  @media (max-width: 768px) {
   #phone {
     width: 70%;
     transform: translate(-50%, -70%) scale(1); /* Scale down on small screens */
   }
-
   #login {
     top: -2svh !important;
   }
-
   #register {
     top: -2svh !important;
   }
-
   #register.hidden {
     top:calc(5svh + 90px) !important;
     z-index:1;
   }
-
   #login.hidden {
     top:calc(5svh + 90px) !important;
     z-index:1;
   }
 }
 
-  </style>
+</style>
