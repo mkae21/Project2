@@ -8,9 +8,9 @@ import MovieWishlist from '@/views/home-wishlist/MovieWishlistComponent.vue'; //
 export default {
     name: 'HomeWishlistComponent',
     components: {
-    MovieWishlist,
-    },
-};
+    MovieWishlist
+    }
+}
 </script>
 
 <style scoped>
