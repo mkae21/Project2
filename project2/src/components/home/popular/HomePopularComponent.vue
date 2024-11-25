@@ -15,7 +15,7 @@
       :apiKey="apiKey"
       :genreCode="'28'"
       :sortingOrder="'all'"
-      :voteEverage="-1" 
+      :voteEverage="-1"
     />
   </div>
 </template>
@@ -107,6 +107,6 @@ export default {
 }
 
 .view-toggle button.active {
-  background-color: #535bf2;
+  background-color: #ed0a0a;
 }
 </style>
