@@ -94,6 +94,10 @@
 <script>
 import { useRouter } from 'vue-router'
 
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'; // 최신 버전에서는 이 경로가 맞습니다.
+import authservice from '@/util/auth/AuthService'; // authservice에서 메소드 가져오기
+
 export default {
   data () {
     return {
@@ -137,45 +141,62 @@ export default {
       this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = false;
     },
     handleLogin () {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const users = JSON.parse(localStorage.getItem('users') || '[]')
       const user = users.find(
-        (user) => user.email === this.email && user.password === this.password
+        (user) => user.email === this.email && user.apiKey === this.password
       )
-
       if (user) {
-        alert(`Logged in successfully!`)
+        toast('Logged in successfully!',{
+          autoClose: 3500,
+        })
+
+        // 로그인 상태와 사용자 정보 저장
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('loggedInUser', this.email);
+
+        // Remember me 체크 여부에 따라 사용자 정보 저장
         if (this.rememberMe) {
-          localStorage.setItem('isLoggedIn', 'true')
-          localStorage.setItem('loggedInUser', this.email)
+          localStorage.setItem('rememberMe', 'true'); // Remember me 플래그 저장
+        } else {
+          localStorage.removeItem('rememberMe');
         }
-        this.$router.push('/project2')
-      } else {
-        alert('Invalid email or password.')
+
+        this.$router.push('/Project2/');
+      } 
+      else {
+        toast('Invalid email or password.',{
+          autoClose: 3500
+        });
       }
     },
     handleRegister () {
       const users = JSON.parse(localStorage.getItem('users') || '[]');
 
       if (users.some((user) => user.email === this.registerEmail)) {
-        alert('Email already registered.');
-        return;
+        toast('User already exists with this email.',{
+          autoClose: 3500
+        });
+        return
       }
 
-      users.push({ email: this.registerEmail, password: this.registerPassword });
+      const newUser = { email: this.registerEmail, apiKey: this.registerPassword }
+      users.push(newUser)
       localStorage.setItem('users', JSON.stringify(users));
-      alert('Registration successful! You can now log in.');
+      toast('Registered successfully!',{
+        autoClose: 3500
+      });
       this.toggleCard(); // Switch to login form
     },
     initializeLoginState () {
+      const isRemembered = localStorage.getItem('rememberMe');
       const isLoggedIn = localStorage.getItem('isLoggedIn');
       const loggedInUser = localStorage.getItem('loggedInUser');
 
-      if (isLoggedIn === 'true' && loggedInUser) {
+      if (isLoggedIn && loggedInUser && isRemembered) {
         this.email = loggedInUser
-        this.rememberMe = true
-        this.$router.push('/project2')
+        this.$router.push('/Project2')
       }
-    },
+    }
   },
   setup () {
     const router = useRouter();
