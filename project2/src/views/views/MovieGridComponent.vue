@@ -230,10 +230,10 @@ export default {
 }
 
 .movie-card img {
-  width: 80%;
-  aspect-ratio: 1/1;
-  border-radius: 4px;
-  object-fit: cover;
+  width: 100%; /* 카드 너비에 맞게 조정 */
+  height: auto; /* 이미지 비율 유지 */
+  border-radius: 10px; /* 둥근 모서리 */
+  object-fit: contain; /* 이미지 비율을 유지하며 잘리지 않게 조정 */
 }
 
 .grid-container.list .movie-card img {
