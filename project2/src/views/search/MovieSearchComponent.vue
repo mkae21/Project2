@@ -116,7 +116,7 @@ export default {
 
 <style scoped>
 .dropdown-container {
-  margin-top: 0;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   gap: 15px;
