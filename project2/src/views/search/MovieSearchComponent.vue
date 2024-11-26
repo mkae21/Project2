@@ -39,9 +39,8 @@ import { ref, computed } from "vue";
 
 export default {
   name: "MovieSearchComponent",
-  emits: ["change-options"], // 부모로 데이터 전달
+  emits: ["change-options"],
   setup(_, { emit }) {
-    // 드롭다운 데이터 정의
     const dropdowns = {
       originalLanguage: ["장르 (전체)", "Action", "Adventure", "Comedy", "Crime", "Family"],
       translationLanguage: [
@@ -57,18 +56,15 @@ export default {
       sorting: ["언어 (전체)", "영어", "한국어"],
     };
 
-    // 기본 선택 옵션
     const DEFAULT_OPTIONS = {
       originalLanguage: "장르 (전체)",
       translationLanguage: "평점 (전체)",
       sorting: "언어 (전체)",
     };
 
-    // 반응형 데이터
     const selectedOptions = ref({ ...DEFAULT_OPTIONS });
     const activeDropdown = ref(null);
 
-    // 드롭다운 엔트리 계산
     const dropdownEntries = computed(() =>
       Object.entries(dropdowns).map(([key, options]) => ({
         key,
@@ -76,32 +72,26 @@ export default {
       }))
     );
 
-    // 드롭다운 토글
     const toggleDropdown = (key) => {
       activeDropdown.value = activeDropdown.value === key ? null : key;
     };
 
-    // 옵션 선택
     const selectOption = (key, option) => {
       selectedOptions.value = {
         ...selectedOptions.value,
         [key]: option,
       };
 
-      console.log("Selected options:", selectedOptions.value); // 디버깅 로그
-      emit("change-options", selectedOptions.value); // 부모로 데이터 전달
+      emit("change-options", selectedOptions.value);
       activeDropdown.value = null;
     };
 
-    // 옵션 초기화
     const clearOptions = () => {
       selectedOptions.value = { ...DEFAULT_OPTIONS };
       activeDropdown.value = null;
-      console.log("Options cleared:", selectedOptions.value); // 디버깅 로그
       emit("change-options", selectedOptions.value);
     };
 
-    // 리턴값
     return {
       dropdownEntries,
       selectedOptions,
@@ -120,6 +110,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .custom-select {
@@ -171,5 +162,34 @@ export default {
 
 .clear-options:hover {
   background-color: #333;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .dropdown-container {
+    flex-direction:row;
+    align-items: stretch;
+  }
+
+  .custom-select {
+    min-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .select-selected {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .select-items div {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .clear-options {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+  }
 }
 </style>
