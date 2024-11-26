@@ -34,7 +34,7 @@
               <span class="checkbox forgot">
                 <a href="#">Forgot Password?</a>
               </span>
-              <button :disabled="!isLoginFormValid">Login</button>
+              <button  :disabled="!isLoginFormValid">Login</button>
             </form>
             <a href="javascript:void(0)" class="account-check" @click="toggleCard">
               {{ isLoginVisible ? "Don't have an account? Sign up" : "Already have an account? Sign in" }}
@@ -164,7 +164,7 @@ export default {
         this.$router.push('/Project2/');
       } 
       else {
-        toast('비밀먼호가 다릅니다.',{
+        toast('비밀번호나 계정을 확인해 주십시오.',{
           autoClose: 3500
         });
       }
@@ -329,6 +329,13 @@ export default {
   button:hover {
   box-shadow: 0px 2px 10px rgba(23,83,209,0.4)
   }
+  
+  button:disabled {
+  background-color: grey; /* 비활성화 상태일 때 회색 */
+  color: lightgray; /* 텍스트 색상도 연하게 */
+  cursor: not-allowed; /* 마우스 커서를 "금지" 모양으로 */
+  }
+
   .input {
   position: relative;
   margin-top: 1.5rem;
