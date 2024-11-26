@@ -37,6 +37,9 @@
         <button class="close-button" @click="toggleMobileMenu">
           <font-awesome-icon :icon="['fas', 'times']" />
         </button>
+        <button v-if="!isLoggedIn" class="icon-ui-login icon-button" @click="logIn">
+          <font-awesome-icon :icon="['fas', 'door-open']" />
+        </button>
         <div class="mobile-nav-ui">
           <button v-if = "isLoggedIn" class="icon-button icon-ui" @click="logOut">
             <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" />
@@ -304,6 +307,13 @@ export default {
   .icon-ui {
     font-size: 1.5rem;
   }
+
+  .icon-ui-login {
+    font-size: 1.5rem;
+    margin-left: 10px;
+    margin-top: 30px;
+  }
+
   a {
     text-align: left;
     font-size: 1.15rem !important;

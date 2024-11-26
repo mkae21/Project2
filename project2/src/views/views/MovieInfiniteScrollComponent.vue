@@ -18,6 +18,9 @@
             loading="lazy"
         />
         <div class="movie-title">{{ movie.title }}</div>
+        <div class="movie-overview">
+            <p>{{ movie.overview }}</p>
+          </div>
         <div v-if="isInWishlist(movie.id)" class="wishlist-indicator">👍</div>
         </div>
     </div>
@@ -287,7 +290,32 @@ export default {
 .grid-container.list .movie-row {
   flex-direction: column;
 }
+.movie-overview {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  max-height: calc(1.4em * 3); /* 최대 3줄 */
+  overflow: hidden; /* 초과 텍스트 숨김 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 최대 3줄 제한 */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis; /* 초과 텍스트에 ... 추가 */
+  white-space: normal; /* 줄바꿈 허용 */
+  opacity: 0; /* 기본적으로 숨김 */
+  transform: translateY(100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
+.movie-card:hover .movie-overview {
+  opacity: 1;
+  transform: translateY(0);
+}
 .movie-card {
   width: 300px;
   margin: 0 10px;
