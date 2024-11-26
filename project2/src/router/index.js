@@ -5,6 +5,8 @@ import SignInComponent from '../components/sign-in/SignInComponent.vue';
 import HomePopularComponent from '../components/home/popular/HomePopularComponent.vue';
 import HomeWishlistComponent from '../components/home/wishlist/HomeWishlistComponent.vue';
 import HomeSearchComponent from '../components/search/HomeSearchComponent.vue';
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const routes = [
   {
@@ -47,7 +49,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isLoggedIn) {
-      alert('로그인이 필요합니다.');
+      toast('로그인이 필요합니다.', { type: 'error', autoClose: 3000 })
       return next('/signin'); // 로그인 페이지로 리다이렉트
     }
   }

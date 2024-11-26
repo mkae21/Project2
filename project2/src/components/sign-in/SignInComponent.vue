@@ -146,8 +146,8 @@ export default {
         (user) => user.email === this.email && user.apiKey === this.password
       )
       if (user) {
-        toast('Logged in successfully!',{
-          autoClose: 3500,
+        toast('로그인에 성공하셨습니다.',{
+          autoClose: 6000,
         })
 
         // 로그인 상태와 사용자 정보 저장
@@ -164,7 +164,7 @@ export default {
         this.$router.push('/Project2/');
       } 
       else {
-        toast('Invalid email or password.',{
+        toast('비밀먼호가 다릅니다.',{
           autoClose: 3500
         });
       }
@@ -173,7 +173,7 @@ export default {
       const users = JSON.parse(localStorage.getItem('users') || '[]');
 
       if (users.some((user) => user.email === this.registerEmail)) {
-        toast('User already exists with this email.',{
+        toast('이미 가입된 이메일 입니다.',{
           autoClose: 3500
         });
         return
@@ -182,7 +182,7 @@ export default {
       const newUser = { email: this.registerEmail, apiKey: this.registerPassword }
       users.push(newUser)
       localStorage.setItem('users', JSON.stringify(users));
-      toast('Registered successfully!',{
+      toast('회원가입이 되었습니다. 로그인해주세요!',{
         autoClose: 3500
       });
       this.toggleCard(); // Switch to login form
