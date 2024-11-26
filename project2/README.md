@@ -1,24 +1,42 @@
-# project2
+# Project2
 
-## Project setup
-```
-npm install
-```
+## 프로젝트 기본 정보
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+**Project2**는 영화 데이터를 기반으로 인기 영화, 최신 영화, 장르별 영화 등을 제공하며, 사용자가 관심 있는 영화를 위시리스트에 추가할 수 있는 웹 애플리케이션입니다.  
+이 프로젝트는 Vue.js와 The Movie Database API(TMDb)를 활용하여 구축되었습니다.
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+## 기술 스택
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- **Frontend**: Vue 3, Vue Router, Vuex, Axios
+- **UI 라이브러리**: FontAwesome, Swiper, Vue Carousel
+- **기타**: TMDb API (영화 데이터 제공), Local Storage (위시리스트 저장)
+
+
+## 설치 및 실행 가이드
+
+1. **필수 요구사항**:
+   - Node.js(최소 14.0 이상)와 npm이 설치되어 있어야 합니다.
+
+2. **프로젝트 복제**:
+   git clone https://github.com/your-repo/project2.git
+   cd project2
+3. **의존성 설치**:
+   npm install
+4. **개발 서버 실행**:
+    npm run serve
+
+# 주요 기능
+
+1. 영화 데이터 제공
+    - 인기 영화, 최신 영화, 장르별 영화 등 다양한 영화 데이터를 제공합니다.
+2. 위시리스트
+    - 사용자가 관심 있는 영화를 위시리스트에 추가할 수 있습니다.
+    - 로컬 스토리지에 위시리스트 데이터를 저장합니다.
+    - 영화 추가및 삭제 기능을 제공합니다.
+3. 반응형 디자인
+    - 모바일, 태블릿, 데스크탑 환경에 대응하는 반응형 디자인을 제공합니다.
+4. 필터링 기능
+    - 인기 영화, 최신 영화, 장르별 영화 등 다양한 필터링 기능을 제공합니다.
+4. 자동 빌드 및 배포
+    - GitHub Actions를 활용하여 코드 푸시 시 자동으로 빌드 및 배포를 진행합니다.
