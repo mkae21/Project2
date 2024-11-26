@@ -19,6 +19,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import WishlistService from "@/util/movie/WishlistService";
 
 export default {
   props: {
@@ -38,6 +39,7 @@ export default {
     const maxScroll = ref(0)
     const slider = ref(null)
     const sliderWindow = ref(null)
+
 
     onMounted(async () => {
       await fetchMovies()
@@ -74,12 +76,11 @@ export default {
     const atRightEdge = computed(() => scrollAmount.value >= maxScroll.value)
 
     const toggleWishlist = (movie) => {
-      // 위시리스트 기능 추가
+      WishlistService.toggleWishlist(movie)
     }
 
     const isInWishlist = (movieId) => {
-      // 위시리스트 확인 기능 추가
-      return false
+      return WishlistService.isInWishlist(movieId)
     }
 
     return {
