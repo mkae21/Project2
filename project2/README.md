@@ -40,3 +40,40 @@
     - 인기 영화, 최신 영화, 장르별 영화 등 다양한 필터링 기능을 제공합니다.
 4. 자동 빌드 및 배포
     - GitHub Actions를 활용하여 코드 푸시 시 자동으로 빌드 및 배포를 진행합니다.
+
+
+# 프로젝트 구조
+
+    src
+    ├── assets                   # 프로젝트 이미지 및 정적 파일
+    ├── components               # 재사용 가능한 Vue 컴포넌트
+    │   ├── home                 # 홈 화면 관련 컴포넌트
+    │   │   ├── main             # 메인 화면 (인기 영화 관련)
+    │   │   │   └── HomePopularComponent.vue
+    │   │   ├── wishlist         # 위시리스트 관련
+    │   │   │   └── HomeWishlistComponent.vue
+    │   │   └── HomeComponent.vue
+    │   ├── search               # 검색 기능 관련 컴포넌트
+    │   │   └── HomeSearchComponent.vue
+    │   ├── sign-in              # 로그인 관련 컴포넌트
+    │   │   └── SignInComponent.vue
+    ├── layouts                  # 레이아웃 관련 컴포넌트
+    │   └── HeaderComponent.vue
+    ├── router                   # Vue Router 설정
+    ├── store                    # Vuex 상태 관리
+    ├── util                     # 유틸리티 클래스 및 서비스
+    │   ├── URLService.js        # API URL 생성 및 인기 영화 데이터 관리
+    │   └── WishlistService.js   # 위시리스트 관리 서비스
+    ├── views                    # 주요 화면 뷰
+    │   ├── home-main            # 홈 메인 뷰 컴포넌트
+    │   │   ├── BannerComponent.vue
+    │   │   └── MovieRowComponent.vue
+    │   ├── home-wishlist        # 위시리스트 뷰 컴포넌트
+    │   │   └── MovieWishlistComponent.vue
+    │   ├── search               # 검색 화면 뷰 컴포넌트
+    │   │   └── MovieSearchComponent.vue
+    │   └── views                # 그리드 및 무한 스크롤 컴포넌트
+    │       ├── MovieGridComponent.vue
+    │       └── MovieInfiniteScrollComponent.vue
+    ├── App.vue                  # 루트 Vue 컴포넌트
+    ├── main.js                  # Vue 초기화 스크립트
