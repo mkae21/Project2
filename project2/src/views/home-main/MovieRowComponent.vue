@@ -1,20 +1,53 @@
 <template>
-    <div class="movie-row">
-      <h2>{{ title }}</h2>
-      <div class="slider-container" @wheel="handleWheel" @mousemove="showButtons = true" @mouseleave="showButtons = false">
-        <button class="slider-button left" @click="slide('left')" :disabled="atLeftEdge">&lt;</button>
-        <div class="slider-window" ref="sliderWindow">
-          <div class="movie-slider" ref="slider" :style="{ transform: 'translateX(' + (-scrollAmount) + 'px)' }">
-            <div v-for="movie in movies" :key="movie.id" class="movie-card" @click="toggleWishlist(movie)">
-              <img :src="getImageUrl(movie.poster_path)" :alt="movie.title">
-              <div v-if="isInWishlist(movie.id)" class="wishlist-indicator">👍</div>
+  <div class="movie-row">
+    <h2>{{ title }}</h2>
+    <div
+      class="slider-container"
+      @wheel="handleWheel"
+      @mousemove="showButtons = true"
+      @mouseleave="showButtons = false"
+    >
+      <button
+        class="slider-button left"
+        @click="slide('left')"
+        :disabled="atLeftEdge"
+      >
+        &lt;
+      </button>
+      <div class="slider-window" ref="sliderWindow">
+        <div
+          class="movie-slider"
+          ref="slider"
+          :style="{ transform: 'translateX(' + -scrollAmount + 'px)' }"
+        >
+          <div
+            v-for="movie in movies"
+            :key="movie.id"
+            class="movie-card"
+            @click="toggleWishlist(movie)"
+          >
+            <img :src="getImageUrl(movie.poster_path)" :alt="movie.title" />
+            <div v-if="isInWishlist(movie.id)" class="wishlist-indicator">
+              👍
+            </div>
+            <!-- 영화 개요 추가 -->
+            <div class="movie-overview">
+              <p>{{ movie.overview }}</p>
             </div>
           </div>
         </div>
-        <button class="slider-button right" @click="slide('right')" :disabled="atRightEdge">&gt;</button>
       </div>
+      <button
+        class="slider-button right"
+        @click="slide('right')"
+        :disabled="atRightEdge"
+      >
+        &gt;
+      </button>
     </div>
-  </template>
+  </div>
+</template>
+
 
 <script>
 import { ref, onMounted, computed } from 'vue'
@@ -144,9 +177,9 @@ export default {
   flex: 0 0 auto;
   width: 200px;
   margin-right: 10px;
-  transition: transform 0.3s;
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .movie-card:hover {
@@ -158,7 +191,31 @@ export default {
   height: auto;
   border-radius: 4px;
 }
-
+.movie-card:hover .movie-overview {
+  opacity: 1;
+  transform: translateY(0);
+}
+.movie-overview {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  max-height: calc(1.4em * 3); /* 3줄 제한, 1.4는 line-height */
+  overflow: hidden; /* 넘치는 텍스트 숨기기 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 최대 3줄로 제한 */
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis; /* 넘친 텍스트에 "..." 추가 */
+  white-space: normal; /* 줄바꿈 허용 */
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
 .slider-button {
   position: absolute;
   top: 50%;
@@ -205,6 +262,11 @@ export default {
 
   .slider-window {
     margin: 0 10px;
+  }
+
+  .movie-overview {
+    font-size: 12px;
+    padding: 5px;
   }
 }
 </style>
