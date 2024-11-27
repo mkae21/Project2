@@ -96,7 +96,6 @@ import { useRouter } from 'vue-router'
 
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'; // 최신 버전에서는 이 경로가 맞습니다.
-import authservice from '@/util/auth/AuthService'; // authservice에서 메소드 가져오기
 
 export default {
   data () {
