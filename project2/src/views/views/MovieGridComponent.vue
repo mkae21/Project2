@@ -128,14 +128,19 @@ export default {
     const calculateLayout = () => {
       if (gridContainer.value) {
         const container = gridContainer.value;
+
         const containerWidth = container.offsetWidth;
-        const containerHeight = window.innerHeight - container.offsetTop;
+        const containerHeight = gridContainer.value.clientHeight; // 콘텐츠 높이를 기준으로 계산
+
         const movieCardWidth = isMobile.value ? 90 : 200;
         const movieCardHeight = isMobile.value ? 150 : 220;
         const horizontalGap = isMobile.value ? 10 : 15;
-        const verticalGap = -10;
+        const verticalGap = 20; // 음수 제거
 
+        // 행당 영화 카드 개수
         rowSize.value = Math.floor(containerWidth / (movieCardWidth + horizontalGap));
+
+        // 최대 열 개수
         const maxRows = Math.floor(containerHeight / (movieCardHeight + verticalGap));
         moviesPerPage.value = rowSize.value * maxRows;
       }
@@ -216,19 +221,19 @@ export default {
 
 .movie-grid {
   width: 100%;
-  height: calc(100vh - 200px);
-  margin-bottom: 40px;
-  margin-top: 30px;
+  height: calc(100vh - 200px); /* 화면 높이에 맞게 제한 */
+  overflow: hidden; /* 스크롤 방지 */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-
 .grid-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden; /* 내부 스크롤 방지 */
 }
+
 
 .movie-row {
   display: flex;
@@ -256,12 +261,13 @@ export default {
 }
 
 .movie-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .movie-card img {
   width: 100%; /* 카드 너비에 맞게 조정 */
   height: auto; /* 이미지 비율 유지 */
+  aspect-ratio: 1/1;
   border-radius: 10px; /* 둥근 모서리 */
   object-fit: contain; /* 이미지 비율을 유지하며 잘리지 않게 조정 */
 }
@@ -309,17 +315,24 @@ export default {
 
 @media (max-width: 768px) {
   .movie-grid {
-    height: calc(90svh - 200px);
+    height: calc(90svh - 100px); /* 모바일 높이 조정 */
+    justify-content:center; /* 세로 중앙 정렬 */
   }
 
   .movie-card {
-    width: 90px;
-    margin: 0 5px;
+    width: 80px; /* 영화 카드 크기 축소 */
+    margin: 0 5px; /* 카드 간격 조정 */
+  }
+
+  .movie-row {
+    gap: 10px; /* 행 사이 간격 추가 */
+    justify-content: center; /* 가로 중앙 정렬 */
   }
 
   .movie-title {
-    font-size: 12px;
+    font-size: 10px; /* 텍스트 크기 축소 */
   }
+}
 
   .pagination button {
     padding: 8px 12px;
@@ -329,6 +342,5 @@ export default {
   .grid-container.list .movie-card img {
     width: 60px;
   }
-}
 
 </style>
