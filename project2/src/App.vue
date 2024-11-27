@@ -18,6 +18,14 @@ export default {
 };
 </script>
 
-<style scoped>
-/* app.component.css에 해당하는 스타일을 여기에 추가 */
+<style>
+  body{
+  -ms-overflow-style: none;
+  }
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
 </style>
+
+

@@ -24,9 +24,6 @@ export default {
     };
   },
   created() {
-    // 로컬 스토리지에 데이터를 설정
-    localStorage.setItem("TMDb-Key", "b1907f9b9967490f278a974270b85f60");
-
     // 설정 완료 후 상태 플래그 변경,렌더링 순서 제어
     this.isReady = true;
   },

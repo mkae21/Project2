@@ -96,7 +96,6 @@ import { useRouter } from 'vue-router'
 
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'; // 최신 버전에서는 이 경로가 맞습니다.
-import authservice from '@/util/auth/AuthService'; // authservice에서 메소드 가져오기
 
 export default {
   data () {
@@ -182,6 +181,7 @@ export default {
       const newUser = { email: this.registerEmail, apiKey: this.registerPassword }
       users.push(newUser)
       localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('TMDb-Key', this.registerPassword); // TMDb API 키 저장
       toast('회원가입이 되었습니다. 로그인해주세요!',{
         autoClose: 3500
       });
