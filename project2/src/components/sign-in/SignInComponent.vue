@@ -180,7 +180,7 @@ export default {
       const newUser = { email: this.registerEmail, apiKey: this.registerPassword }
       users.push(newUser)
       localStorage.setItem('users', JSON.stringify(users));
-      localStorage.setItem('TMDb-Key', apiKey); // TMDb API 키 저장
+      localStorage.setItem('TMDb-Key', this.registerPassword); // TMDb API 키 저장
       toast('회원가입이 되었습니다. 로그인해주세요!',{
         autoClose: 3500
       });
