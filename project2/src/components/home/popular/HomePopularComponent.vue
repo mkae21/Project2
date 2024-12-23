@@ -28,6 +28,8 @@ import { faTh, faBars } from '@fortawesome/free-solid-svg-icons';
 import MovieGridComponent from '@/views/views/MovieGridComponent.vue';
 import MovieInfiniteScrollComponent from '@/views/views/MovieInfiniteScrollComponent.vue';
 import URLService from '@/util/movie/URLService.js';
+import dotenv from 'dotenv';
+dotenv.config(); // .env 파일의 내용을 환경 변수로 로드
 
 library.add(faTh, faBars);
 
@@ -39,7 +41,7 @@ export default {
     MovieInfiniteScrollComponent
   },
   setup () {
-    const apiKey = ref(localStorage.getItem('TMDb-Key') || '');
+    const apiKey = ref(process.env.TDMB_KEY || '');
     const currentView = ref('grid');
     const fetchUrl = ref('');
 
