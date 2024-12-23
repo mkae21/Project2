@@ -35,6 +35,7 @@
                 <a href="#">Forgot Password?</a>
               </span>
               <button  :disabled="!isLoginFormValid">Login</button>
+              <a href="#"><img src='../../assets/kakao.png'></a>
             </form>
             <a href="javascript:void(0)" class="account-check" @click="toggleCard">
               {{ isLoginVisible ? "Don't have an account? Sign up" : "Already have an account? Sign in" }}
@@ -280,7 +281,7 @@ export default {
     }
   }
   #content-wrapper {
-    width: 100%;
+    width: 110%;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -315,6 +316,7 @@ export default {
   }
   button {
     display:block;
+    margin-bottom: 10px;
     border-radius:50px;
     border:none;
     width:100%;
