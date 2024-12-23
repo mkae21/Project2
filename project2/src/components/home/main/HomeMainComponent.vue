@@ -25,7 +25,8 @@ export default {
   },
   //상태와 로직 정의
   setup () {
-    const apiKey = process.env.TDMB_KEY || "";
+    const TDMB = import.meta.env.VITE_TMDB_KEY || 'API_KEY_NOT_SET'
+    const apiKey = TDMB;
 
     // Reactive data
     const featuredMovies = ref([]);
