@@ -15,8 +15,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import URLService from '@/util/movie/URLService.js'
 import BannerComponent from "@/views/home-main/BannerComponent.vue";
 import MovieRowComponent from "@/views/home-main/MovieRowComponent.vue";
-import dotenv from 'dotenv';
-dotenv.config(); // .env 파일의 내용을 환경 변수로 로드
+
 
 export default {
   name: "HomeMainComponent",
