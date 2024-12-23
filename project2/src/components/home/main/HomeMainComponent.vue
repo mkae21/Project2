@@ -16,7 +16,6 @@ import URLService from '@/util/movie/URLService.js'
 import BannerComponent from "@/views/home-main/BannerComponent.vue";
 import MovieRowComponent from "@/views/home-main/MovieRowComponent.vue";
 
-
 export default {
   name: "HomeMainComponent",
   components: {
@@ -25,8 +24,7 @@ export default {
   },
   //상태와 로직 정의
   setup () {
-    const TDMB = import.meta.env.VITE_TMDB_KEY || 'API_KEY_NOT_SET'
-    const apiKey = TDMB;
+    const apiKey = import.meta.env.VITE_TMDB_KEY || 'API_KEY_NOT_SET';
 
     // Reactive data
     const featuredMovies = ref([]);
