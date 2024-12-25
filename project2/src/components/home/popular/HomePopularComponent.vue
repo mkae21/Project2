@@ -40,7 +40,7 @@ export default {
     MovieInfiniteScrollComponent
   },
   setup () {
-    const TDMB = import.meta.env.VITE_TMDB_KEY || 'API_KEY_NOT_SET'
+    const TDMB = process.env.VUE_APP_TMDB_KEY || 'API_KEY_NOT_SET'
     const apiKey = ref(TDMB);
     const currentView = ref('grid');
     const fetchUrl = ref('');

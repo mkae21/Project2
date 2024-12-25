@@ -22,9 +22,9 @@ export default {
     BannerComponent,
     MovieRowComponent
   },
-  //상태와 로직 정의
+    
   setup () {
-    const apiKey = import.meta.env.VITE_TMDB_KEY || 'API_KEY_NOT_SET';
+    const apiKey = process.env.VUE_APP_TMDB_KEY || 'API_KEY_NOT_SET';
 
     // Reactive data
     const featuredMovies = ref([]);
