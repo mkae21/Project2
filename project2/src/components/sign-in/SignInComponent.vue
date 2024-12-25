@@ -258,6 +258,7 @@ export default {
         console.log("[토큰 발급] response:", response.data);
         // 액세스 토큰 저장
         this.kakaoAccessToken = response.data.access_token;
+        localStorage.setItem('kakaoAccessToken', this.kakaoAccessToken);
 
         // 3) 액세스 토큰으로 사용자 정보 가져오기
         await this.getKakaoUserInfo();
@@ -273,7 +274,6 @@ export default {
         return;
       }
       try {
-        // POST or GET https://kapi.kakao.com/v2/user/me
         const response = await axios.post(
           "https://kapi.kakao.com/v2/user/me",
           {},
@@ -303,33 +303,6 @@ export default {
         
       } catch (err) {
         console.error("카카오 사용자 정보 요청 실패:", err);
-      }
-    },
-    
-    // 4) 로그아웃 (원하면 추가)
-    async kakaoLogout() {
-      if (!this.kakaoAccessToken) {
-        console.log("액세스 토큰이 없습니다. 로그아웃 불가");
-        return;
-      }
-      try {
-        // POST https://kapi.kakao.com/v1/user/logout
-        // 토큰을 만료시켜 더 이상 호출 불가능
-        const response = await axios.post(
-          "https://kapi.kakao.com/v1/user/logout",
-          {},
-          {
-            headers: {
-              "Authorization": `Bearer ${this.kakaoAccessToken}`,
-            },
-          }
-        );
-        console.log("[카카오 로그아웃] response:", response.data);
-        this.kakaoAccessToken = null;
-        this.user = {};
-        toast("카카오 로그아웃 완료!", { autoClose: 3000 });
-      } catch (err) {
-        console.error("카카오 로그아웃 오류:", err);
       }
     }
   },
