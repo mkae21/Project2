@@ -22,7 +22,7 @@
         <button v-if="!isLoggedIn" class="icon-login desktop-logout" @click="logIn">
           <font-awesome-icon :icon="['fas', 'door-open']" />
         </button>
-        <span v-if="isLoggedIn" class="username">{{ loggedInUser }}</span>
+        <span v-if="isLoggedIn" class="username">{{ kakaoName }}</span>
         <span v-if="!isLoggedIn" class="username">로그인이 필요합니다.</span>
         <button v-if="isLoggedIn" class="icon-button desktop-logout" @click="logOut">
           <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" />
@@ -77,6 +77,7 @@ export default {
     const router = useRouter()
     const isLoggedIn = ref(localStorage.getItem('isLoggedIn'))
     const loggedInUser = ref(localStorage.getItem('loggedInUser'))
+    const kakaoName = ref(localStorage.getItem('kakaoNickname'))
 
     const handleScroll = () => {
       isScrolled.value = window.scrollY > 50
@@ -87,7 +88,7 @@ export default {
         toast('로그인이 필요합니다.', { type: 'error' })
         router.push('/signin')
       } else {
-        toast('로그인 되어있는 사용자: ' + loggedInUser.value, { type: 'success' })
+        toast('로그인 되어있는 사용자: ' + kakaoNickname.value, { type: 'success' })
       }
     }
     const logIn = () => {
@@ -128,7 +129,8 @@ export default {
       loginValid,
       logOut,
       logIn,
-      toggleMobileMenu
+      toggleMobileMenu,
+      kakaoName
     }
   }
 }
