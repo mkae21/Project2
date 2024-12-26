@@ -226,7 +226,7 @@ export default {
         `?client_id=${REST_API_KEY}` +
         `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
         `&response_type=code`;
-      window.location.href = kakaoAuthUrl;
+      window.location.href = kakaoAuthUrl; 
     },
 
     // 2) 인가 코드 → 토큰 받기 (REST API)
