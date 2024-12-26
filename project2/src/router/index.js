@@ -45,15 +45,21 @@ const router = createRouter({
 
 // 전역 네비게이션 가드 추가
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const isLoggedIn = localStorage.getItem('kakaoAccessToken') !== null;
 
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (!isLoggedIn) {
-      toast('로그인이 필요합니다.', { type: 'error', autoClose: 3000 });
-      return next('/signin'); // 로그인 페이지로 리다이렉트
-    }
+  // URL에서 "code" 파라미터를 확인
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+
+  if (code && !isLoggedIn) {
+    handleKakaoLogin(code, router);
   }
-  next(); // 라우트 이동 허용
+
+  if (to.matched.some((record) => record.meta.requiresAuth) && !isLoggedIn) {
+    return next('/signin'); // 인증이 필요한 경우 로그인 페이지로 이동
+  }
+
+  next();
 });
 
 export default router;

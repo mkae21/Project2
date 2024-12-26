@@ -105,7 +105,7 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 export default {
-  data () {
+  data() {
     return {
       isLoginVisible: true,
       email: '',
@@ -120,203 +120,77 @@ export default {
       isRegisterEmailFocused: false,
       isRegisterPasswordFocused: false,
       isConfirmPasswordFocused: false,
-      // (추가) REST API용 상태
-      kakaoAccessToken: null, // 카카오 액세스 토큰
-      user: {} // 사용자 정보 (카카오 프로필 등)
+      kakaoAccessToken: null,
+      user: {}
     }
   },
-
-  created () {
-    // 1) 인가 코드가 URL에 있는지 확인
+  created() {
+    // URL에서 "code" 파라미터를 확인
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("code")) {
-      const code = urlParams.get("code");
-      console.log("카카오 인가코드:", code);
-      // 2) 코드로 카카오 토큰 발급 요청
-      this.getKakaoTokenByREST(code);
+    const code = urlParams.get('code');
+    if (code) {
+      console.log('카카오 인증 코드 감지:', code);
+      this.handleKakaoLogin(code);
     }
   },
-
   computed: {
-    isLoginFormValid () {
-      return this.email && this.password
+    isLoginFormValid() {
+      return this.email && this.password;
     },
-    isRegisterFormValid () {
+    isRegisterFormValid() {
       return (
         this.registerEmail &&
         this.registerPassword &&
         this.confirmPassword &&
         this.registerPassword === this.confirmPassword &&
         this.acceptTerms
-      )
+      );
     }
   },
-
   methods: {
-    // --- 기존 메서드들 ---
-    toggleCard () {
-      this.isLoginVisible = !this.isLoginVisible
+    toggleCard() {
+      this.isLoginVisible = !this.isLoginVisible;
     },
-    focusInput (inputName) {
+    focusInput(inputName) {
       this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = true;
     },
-    blurInput (inputName) {
+    blurInput(inputName) {
       this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = false;
     },
-    handleLogin() {
-      const users = JSON.parse(localStorage.getItem('users') || '[]')
-      const user = users.find(
-        (user) => user.email === this.email && user.apiKey === this.password
-      )
-      if (user) {
-        toast('로그인에 성공하셨습니다.',{
-          autoClose: 6000,
-        });
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('loggedInUser', this.email);
-        if (this.rememberMe) {
-          localStorage.setItem('rememberMe', 'true');
-        } else {
-          localStorage.removeItem('rememberMe');
-        }
-        this.$router.push('/Project2/');
-      } else {
-        toast('비밀번호나 계정을 확인해 주십시오.',{
-          autoClose: 3500
-        });
-      }
-    },
-    handleRegister() {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      if (users.some((user) => user.email === this.registerEmail)) {
-        toast('이미 가입된 이메일 입니다.',{
-          autoClose: 3500
-        });
-        return
-      }
-      const newUser = { email: this.registerEmail, apiKey: this.registerPassword }
-      users.push(newUser)
-      localStorage.setItem('users', JSON.stringify(users));
-      localStorage.setItem('TMDb-Key', this.registerPassword);
-      toast('회원가입이 되었습니다. 로그인해주세요!',{
-        autoClose: 3500
-      });
-      this.toggleCard();
-    },
-    initializeLoginState() {
-      const isRemembered = localStorage.getItem('rememberMe');
-      const isLoggedIn = localStorage.getItem('isLoggedIn');
-      const loggedInUser = localStorage.getItem('loggedInUser');
-      if (isLoggedIn && loggedInUser && isRemembered) {
-        this.email = loggedInUser;
-        this.$router.push('/Project2');
-      }
-    },
+    async handleKakaoLogin(code) {
+      try {
+        const response = await axios.post(
+          'https://kauth.kakao.com/oauth/token',
+          new URLSearchParams({
+            grant_type: 'authorization_code',
+            client_id: process.env.VUE_APP_REST_API_KEY,
+            redirect_uri: process.env.VUE_APP_REDIRECT_URI,
+            code,
+          }),
+          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+        );
+        const data = response.data;
+        console.log('카카오 토큰:', data);
 
-    // --- (추가) REST API로 카카오 로그인 ---
-    // 1) 인가 코드 받기
-    //    '카카오 로그인' 버튼 클릭 시 호출
-    kakaoLogin () {
+        if (data.access_token) {
+          localStorage.setItem('kakaoAccessToken', data.access_token);
+          this.$router.push('/Project2'); // 로그인 성공 시 리다이렉트
+        }
+      } catch (error) {
+        console.error('카카오 로그인 처리 중 오류:', error);
+      }
+    },
+    kakaoLogin() {
       const REST_API_KEY = process.env.VUE_APP_REST_API_KEY;
       const REDIRECT_URI = process.env.VUE_APP_REDIRECT_URI;
-      // 카카오 인가 코드 요청 (브라우저 리다이렉트)
-      // GET https://kauth.kakao.com/oauth/authorize?client_id=...&redirect_uri=...&response_type=code
       const kakaoAuthUrl = 
-        "https://kauth.kakao.com/oauth/authorize" +
-        `?client_id=${REST_API_KEY}` +
-        `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
-        `&response_type=code`;
+        `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`;
       window.location.href = kakaoAuthUrl;
-    },
-
-    // 2) 인가 코드 → 토큰 받기 (REST API)
-    async getKakaoTokenByREST(code) {
-      try {
-        const REST_API_KEY = process.env.VUE_APP_REST_API_KEY
-        const REDIRECT_URI = process.env.VUE_APP_REDIRECT_URI
-        // 필요한 데이터
-        const data = {
-          grant_type: "authorization_code",
-          client_id: REST_API_KEY,
-          redirect_uri: REDIRECT_URI,
-          code: code,
-        };
-        const queryString = Object.keys(data)
-          .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k]))
-          .join("&");
-
-        // POST https://kauth.kakao.com/oauth/token
-        const response = await axios.post(
-          "https://kauth.kakao.com/oauth/token",
-          queryString,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            },
-          }
-        );
-        console.log("[토큰 발급] response:", response.data);
-        // 액세스 토큰 저장
-        this.kakaoAccessToken = response.data.access_token;
-        localStorage.setItem('kakaoAccessToken', this.kakaoAccessToken);
-        
-        // 3) 액세스 토큰으로 사용자 정보 가져오기
-        await this.getKakaoUserInfo();
-      } catch (err) {
-        console.error("카카오 토큰 발급 실패:", err);
-      }
-    },
-
-    // 3) 사용자 정보 가져오기
-    async getKakaoUserInfo() {
-      if (!this.kakaoAccessToken) {
-        console.log("액세스 토큰이 없습니다.");
-        return;
-      }
-      try {
-        const response = await axios.post(
-          "https://kapi.kakao.com/v2/user/me",
-          {},
-          {
-            headers: {
-              "Authorization": `Bearer ${this.kakaoAccessToken}`,
-              "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            },
-          }
-        );
-        console.log("[사용자 정보]", response.data);
-        this.user = response.data;
-
-        // === (추가) 로그인 처리 로직 ===
-        const kakaoEmail = response.data.kakao_account.email || 'unknown@kakao';
-        const kakaoNickname = response.data.kakao_account.profile.nickname || 'unknown';
-        
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('loggedInUser', kakaoEmail);
-        localStorage.setItem('kakaoNickname', kakaoNickname);
-
-        // === 라우터 이동 ===
-        // 필요하면 로그인 로직, 회원가입 로직 etc.
-        toast("카카오 로그인 완료!", { autoClose: 6000 });
-        // 로그인 후 이동할 페이지
-        this.$router.push("/Project2");
-        
-      } catch (err) {
-        console.error("카카오 사용자 정보 요청 실패:", err);
-      }
     }
-  },
-
-  setup() {
-    const router = useRouter();
-    return { router };
-  },
-
-  mounted() {
-    this.initializeLoginState();
-  },
+  }
 };
 </script>
+
 
 <style scoped>
 /* (기존 style 그대로, 변경 없음) */
