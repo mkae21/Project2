@@ -52,7 +52,7 @@ router.beforeEach((to, from, next) => {
   const code = urlParams.get('code');
 
   if (code && !isLoggedIn) {
-    handleKakaoLogin(code, router);
+    this.handleKakaoLogin(code, router);
   }
 
   if (to.matched.some((record) => record.meta.requiresAuth) && !isLoggedIn) {
