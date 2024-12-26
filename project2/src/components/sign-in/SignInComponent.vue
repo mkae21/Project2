@@ -100,11 +100,18 @@
 
 <script>
 import axios from "axios";
-import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 export default {
+  name: "SignInComponent",
+  // HomeComponent에서 kakaoCode를 props로 전달받는다
+  props: {
+    kakaoCode: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       isLoginVisible: true,
@@ -124,13 +131,13 @@ export default {
       user: {}
     }
   },
-  created() {
-    // URL에서 "code" 파라미터를 확인
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    if (code) {
-      console.log('카카오 인증 코드 감지:', code);
-      this.handleKakaoLogin(code);
+  // 여기서 created()에서 직접 code를 읽지 않고, props를 watch로 감지한다
+  watch: {
+    kakaoCode(newCode) {
+      if (newCode) {
+        console.log('SignInComponent: 부모에서 넘겨준 카카오 인증 코드:', newCode);
+        this.handleKakaoLogin(newCode);
+      }
     }
   },
   computed: {
@@ -170,22 +177,33 @@ export default {
           { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
         );
         const data = response.data;
-        console.log('카카오 토큰:', data);
+        console.log('SignInComponent: 카카오 토큰 응답:', data);
 
         if (data.access_token) {
           localStorage.setItem('kakaoAccessToken', data.access_token);
-          this.$router.push('/Project2'); // 로그인 성공 시 리다이렉트
+          // 로그인 성공 시 페이지 이동
+          this.$router.push('/Project2');
         }
       } catch (error) {
         console.error('카카오 로그인 처리 중 오류:', error);
+        toast.error('카카오 로그인에 실패했습니다.');
       }
     },
     kakaoLogin() {
+      // 카카오로 로그인
       const REST_API_KEY = process.env.VUE_APP_REST_API_KEY;
       const REDIRECT_URI = process.env.VUE_APP_REDIRECT_URI;
       const kakaoAuthUrl = 
         `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`;
       window.location.href = kakaoAuthUrl;
+    },
+    handleLogin() {
+      // 일반 로그인 로직 (email/password)
+      console.log('SignInComponent: 일반 로그인 로직 호출');
+    },
+    handleRegister() {
+      // 회원가입 로직
+      console.log('SignInComponent: 회원가입 로직 호출');
     }
   }
 };
