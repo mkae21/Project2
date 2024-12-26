@@ -22,9 +22,9 @@ export default {
     BannerComponent,
     MovieRowComponent
   },
-  //상태와 로직 정의
+    
   setup () {
-    const apiKey = localStorage.getItem("TMDb-Key") || "";
+    const apiKey = process.env.VUE_APP_TMDB_KEY || 'API_KEY_NOT_SET';
 
     // Reactive data
     const featuredMovies = ref([]);

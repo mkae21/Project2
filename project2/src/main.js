@@ -6,3 +6,5 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 createApp(App).use(store).use(router).use(Toast).mount('#app')
+
+window.Kakao.init(process.env.VUE_APP_JSAPP_KEY)

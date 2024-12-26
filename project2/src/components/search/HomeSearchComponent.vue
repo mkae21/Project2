@@ -30,7 +30,7 @@ export default {
   },
   setup () {
     // API Key
-    const apiKey = ref(localStorage.getItem("TMDb-Key") || "");
+    const apiKey = ref(process.env.VUE_APP_TMDB_KEY || "");
 
     // 기본 옵션 값
     const genreId = ref("28"); // 기본: Action

@@ -8,5 +8,12 @@ module.exports = defineConfig({
   },
   lintOnSave: false,
   publicPath: '/Project2',
-  outputDir: 'dist'
+  outputDir: 'dist',
+
+  // 개발 서버 설정 추가
+  devServer: {
+    host: process.env.VUE_APP_IP_ADDRESS,
+    port: process.env.VUE_APP_PORT,
+    https: false,
+  },
 });

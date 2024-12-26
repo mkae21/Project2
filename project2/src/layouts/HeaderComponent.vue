@@ -22,9 +22,9 @@
         <button v-if="!isLoggedIn" class="icon-login desktop-logout" @click="logIn">
           <font-awesome-icon :icon="['fas', 'door-open']" />
         </button>
-        <span v-if="isLoggedIn" class="username">{{ loggedInUser }}</span>
+        <span v-if="isLoggedIn" class="username">{{ kakaoName }}</span>
         <span v-if="!isLoggedIn" class="username">로그인이 필요합니다.</span>
-        <button v-if="isLoggedIn" class="icon-button desktop-logout" @click="logOut">
+        <button v-if="isLoggedIn" class="icon-button desktop-logout" @click="handleLogout">
           <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" />
         </button>
         <button class="icon-button mobile-menu-button" @click="toggleMobileMenu">
@@ -41,7 +41,7 @@
           <font-awesome-icon :icon="['fas', 'door-open']" />
         </button>
         <div class="mobile-nav-ui">
-          <button v-if = "isLoggedIn" class="icon-button icon-ui" @click="logOut">
+          <button v-if = "isLoggedIn" class="icon-button icon-ui" @click="handleLogout">
             <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" />
           </button>
         </div>
@@ -58,6 +58,8 @@
   </template>
 
 <script>
+import { useStore } from 'vuex'
+import { mapActions } from 'vuex'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -72,11 +74,13 @@ library.add(faIdBadge, faDoorOpen, faTicket, faBars, faTimes, faArrowRightFromBr
 export default {
   components: { FontAwesomeIcon },
   setup () {
+    const store = useStore()
     const isScrolled = ref(false)
     const isMobileMenuOpen = ref(false)
     const router = useRouter()
     const isLoggedIn = ref(localStorage.getItem('isLoggedIn'))
     const loggedInUser = ref(localStorage.getItem('loggedInUser'))
+    const kakaoName = ref(localStorage.getItem('kakaoNickname'))
 
     const handleScroll = () => {
       isScrolled.value = window.scrollY > 50
@@ -87,7 +91,7 @@ export default {
         toast('로그인이 필요합니다.', { type: 'error' })
         router.push('/signin')
       } else {
-        toast('로그인 되어있는 사용자: ' + loggedInUser.value, { type: 'success' })
+        toast('로그인 되어있는 사용자: ' + kakaoNickname.value, { type: 'success' })
       }
     }
     const logIn = () => {
@@ -111,6 +115,23 @@ export default {
     const toggleMobileMenu = () => {
       isMobileMenuOpen.value = !isMobileMenuOpen.value
     }
+    const handleLogout = async () => {
+      console.log("로그아웃 버튼이 클릭되었습니다.")
+      try {
+        // 1) 일반 로컬 로그아웃
+        logOut()
+
+        // 2) 카카오 로그아웃
+        await store.dispatch('kakaoLogout')
+
+        // 추가 후처리
+        isLoggedIn.value = false
+        kakaoName.value = ""
+        toast("로그아웃 완료", { type: "success" })
+      } catch (err) {
+        console.error("로그아웃 중 오류 발생:", err)
+      }
+    }
 
     onMounted(() => {
       window.addEventListener('scroll', handleScroll)
@@ -121,6 +142,7 @@ export default {
     })
 
     return {
+      ...mapActions(["kakaoLogout"]), // Vuex의 kakaoLogout 액션 연결
       isScrolled,
       isMobileMenuOpen,
       isLoggedIn,
@@ -128,7 +150,9 @@ export default {
       loginValid,
       logOut,
       logIn,
-      toggleMobileMenu
+      toggleMobileMenu,
+      kakaoName,
+      handleLogout
     }
   }
 }

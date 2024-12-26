@@ -29,6 +29,7 @@ import MovieGridComponent from '@/views/views/MovieGridComponent.vue';
 import MovieInfiniteScrollComponent from '@/views/views/MovieInfiniteScrollComponent.vue';
 import URLService from '@/util/movie/URLService.js';
 
+
 library.add(faTh, faBars);
 
 export default {
@@ -39,7 +40,8 @@ export default {
     MovieInfiniteScrollComponent
   },
   setup () {
-    const apiKey = ref(localStorage.getItem('TMDb-Key') || '');
+    const TDMB = process.env.VUE_APP_TMDB_KEY || 'API_KEY_NOT_SET'
+    const apiKey = ref(TDMB);
     const currentView = ref('grid');
     const fetchUrl = ref('');
 
