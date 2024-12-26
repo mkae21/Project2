@@ -3,44 +3,29 @@
     <!-- Header Component -->
     <HeaderComponent />
 
-    <!-- Main Content -->
+    <!-- Container for the main content -->
     <div id="container">
-      <!-- SignInComponent로 code를 전달 -->
-      <SignInComponent :kakaoCode="kakaoCode" />
-
-      <!-- 기존 router-view -->
-      <router-view />
+      <router-view /> <!-- 자식 컴포넌트를 렌더링 -->
     </div>
   </div>
 </template>
 
 <script>
 import HeaderComponent from "@/layouts/HeaderComponent.vue";
-import SignInComponent from "@/components/sign-in/SignInComponent.vue";
 
 export default {
   name: "HomeComponent",
   components: {
     HeaderComponent,
-    SignInComponent,
   },
   data() {
     return {
-      isReady: false,
-      kakaoCode: null, // 감지된 카카오 인증 코드 저장
+      isReady: false, // 렌더링 준비 상태
     };
   },
   created() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-
-    if (code) {
-      console.log("HomeComponent: 카카오 인증 코드 감지:", code);
-      // 감지된 code를 kakaoCode에 저장하여 자식으로 전달
-      this.kakaoCode = code;
-    }
-
-    this.isReady = true; // 렌더링 준비 완료
+    // 설정 완료 후 상태 플래그 변경,렌더링 순서 제어
+    this.isReady = true;
   },
 };
 </script>
