@@ -98,114 +98,82 @@
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
-import { toast } from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css'
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 export default {
   name: "SignInComponent",
-  // HomeComponent에서 kakaoCode를 props로 전달받는다
   props: {
     kakaoCode: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       isLoginVisible: true,
-      email: '',
-      password: '',
-      registerEmail: '',
-      registerPassword: '',
-      confirmPassword: '',
-      rememberMe: false,
-      acceptTerms: false,
-      isEmailFocused: false,
-      isPasswordFocused: false,
-      isRegisterEmailFocused: false,
-      isRegisterPasswordFocused: false,
-      isConfirmPasswordFocused: false,
+      email: "",
+      password: "",
       kakaoAccessToken: null,
-      user: {}
-    }
+      user: {},
+    };
   },
-  // 여기서 created()에서 직접 code를 읽지 않고, props를 watch로 감지한다
   watch: {
+    // kakaoCode가 변경되었을 때 처리
     kakaoCode(newCode) {
       if (newCode) {
-        console.log('SignInComponent: 부모에서 넘겨준 카카오 인증 코드:', newCode);
+        console.log("SignInComponent: 부모에서 받은 카카오 인증 코드:", newCode);
         this.handleKakaoLogin(newCode);
       }
-    }
+    },
   },
   computed: {
     isLoginFormValid() {
       return this.email && this.password;
     },
-    isRegisterFormValid() {
-      return (
-        this.registerEmail &&
-        this.registerPassword &&
-        this.confirmPassword &&
-        this.registerPassword === this.confirmPassword &&
-        this.acceptTerms
-      );
-    }
   },
   methods: {
-    toggleCard() {
-      this.isLoginVisible = !this.isLoginVisible;
-    },
-    focusInput(inputName) {
-      this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = true;
-    },
-    blurInput(inputName) {
-      this[`is${inputName.charAt(0).toUpperCase() + inputName.slice(1)}Focused`] = false;
-    },
     async handleKakaoLogin(code) {
       try {
         const response = await axios.post(
-          'https://kauth.kakao.com/oauth/token',
+          "https://kauth.kakao.com/oauth/token",
           new URLSearchParams({
-            grant_type: 'authorization_code',
+            grant_type: "authorization_code",
             client_id: process.env.VUE_APP_REST_API_KEY,
             redirect_uri: process.env.VUE_APP_REDIRECT_URI,
             code,
           }),
-          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+          { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
         );
+
         const data = response.data;
-        console.log('SignInComponent: 카카오 토큰 응답:', data);
+        console.log("SignInComponent: 카카오 토큰 발급 성공:", data);
 
         if (data.access_token) {
-          localStorage.setItem('kakaoAccessToken', data.access_token);
+          localStorage.setItem("kakaoAccessToken", data.access_token);
           // 로그인 성공 시 페이지 이동
-          this.$router.push('/Project2');
+          this.$router.push("/Project2");
         }
       } catch (error) {
-        console.error('카카오 로그인 처리 중 오류:', error);
-        toast.error('카카오 로그인에 실패했습니다.');
+        console.error("SignInComponent: 카카오 로그인 처리 중 오류:", error);
+        toast.error("카카오 로그인에 실패했습니다.");
       }
     },
     kakaoLogin() {
-      // 카카오로 로그인
       const REST_API_KEY = process.env.VUE_APP_REST_API_KEY;
       const REDIRECT_URI = process.env.VUE_APP_REDIRECT_URI;
-      const kakaoAuthUrl = 
-        `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`;
+      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${encodeURIComponent(
+        REDIRECT_URI
+      )}&response_type=code`;
       window.location.href = kakaoAuthUrl;
     },
     handleLogin() {
-      // 일반 로그인 로직 (email/password)
-      console.log('SignInComponent: 일반 로그인 로직 호출');
+      console.log("SignInComponent: 일반 로그인 로직 호출");
     },
-    handleRegister() {
-      // 회원가입 로직
-      console.log('SignInComponent: 회원가입 로직 호출');
-    }
-  }
+  },
 };
 </script>
 

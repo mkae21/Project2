@@ -3,18 +3,20 @@
     <!-- Header Component -->
     <HeaderComponent />
 
-    <!-- Container for the main content -->
+    <!-- Main Content -->
     <div id="container">
-      <router-view /> <!-- 자식 컴포넌트를 렌더링 -->
+      <!-- SignInComponent로 code를 전달 -->
+      <SignInComponent :kakaoCode="kakaoCode" />
+
+      <!-- 기존 router-view -->
+      <router-view />
     </div>
   </div>
 </template>
 
-
 <script>
 import HeaderComponent from "@/layouts/HeaderComponent.vue";
 import SignInComponent from "@/components/sign-in/SignInComponent.vue";
-import axios from "axios";
 
 export default {
   name: "HomeComponent",
@@ -24,12 +26,8 @@ export default {
   },
   data() {
     return {
-      isReady: false, // 렌더링 준비 상태
-      email: "",
-      password: "",
-      kakaoAccessToken: null,
-      user: {},
-      kakaoCode: null, // 카카오 인증 코드를 저장할 변수
+      isReady: false,
+      kakaoCode: null, // 감지된 카카오 인증 코드 저장
     };
   },
   created() {
@@ -38,36 +36,11 @@ export default {
 
     if (code) {
       console.log("HomeComponent: 카카오 인증 코드 감지:", code);
-      // 자식에게 내려줄 kakaoCode에 저장
+      // 감지된 code를 kakaoCode에 저장하여 자식으로 전달
       this.kakaoCode = code;
     }
 
-    // 렌더링 준비 완료
-    this.isReady = true;
-  },
-  methods: {
-    async handleLogin() {
-      // (일반 email/password 로그인 예시)
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
-      const user = users.find(
-        (user) => user.email === this.email && user.apiKey === this.password
-      );
-      if (user) {
-        console.log("로그인 성공");
-        localStorage.setItem("isLoggedIn", "true");
-        this.$router.push("/Project2");
-      } else {
-        console.error("로그인 실패: 이메일 또는 비밀번호를 확인해주세요.");
-      }
-    },
-    kakaoLogin() {
-      // 카카오 로그인 URL로 이동
-      const REST_API_KEY = process.env.VUE_APP_REST_API_KEY;
-      const REDIRECT_URI = process.env.VUE_APP_REDIRECT_URI;
-      const kakaoAuthUrl = 
-        `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`;
-      window.location.href = kakaoAuthUrl;
-    },
+    this.isReady = true; // 렌더링 준비 완료
   },
 };
 </script>
