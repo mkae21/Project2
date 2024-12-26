@@ -11,7 +11,7 @@ import 'vue3-toastify/dist/index.css';
 const routes = [
   {
     path: '/Project2',
-    component: HomeComponent, 
+    component: HomeComponent,
     children: [
       {
         path: '',
