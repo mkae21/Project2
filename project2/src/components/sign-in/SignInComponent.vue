@@ -100,18 +100,11 @@
 
 <script>
 import axios from "axios";
+import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 export default {
-  name: 'SignInComponent',
-  // HomeComponent에서 내려준 kakaoCode를 props로 받는다
-  props: {
-    kakaoCode: {
-      type: String,
-      default: null
-    }
-  },
   data() {
     return {
       isLoginVisible: true,
@@ -131,14 +124,13 @@ export default {
       user: {}
     }
   },
-  // 이전에는 created()에서 code를 직접 체크했지만,
-  // 이제는 props로 전달받은 kakaoCode를 watch해서 처리한다.
-  watch: {
-    kakaoCode(newCode) {
-      if (newCode) {
-        console.log('SignInComponent: 부모에서 전달받은 카카오 인증 코드 감지:', newCode);
-        this.handleKakaoLogin(newCode);
-      }
+  created() {
+    // URL에서 "code" 파라미터를 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    if (code) {
+      console.log('카카오 인증 코드 감지:', code);
+      this.handleKakaoLogin(code);
     }
   },
   computed: {
@@ -173,21 +165,19 @@ export default {
             grant_type: 'authorization_code',
             client_id: process.env.VUE_APP_REST_API_KEY,
             redirect_uri: process.env.VUE_APP_REDIRECT_URI,
-            code: code,
+            code,
           }),
           { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
         );
         const data = response.data;
-        console.log('SignInComponent: 카카오 토큰:', data);
+        console.log('카카오 토큰:', data);
 
         if (data.access_token) {
           localStorage.setItem('kakaoAccessToken', data.access_token);
-          // 로그인 성공 시 리다이렉트
-          this.$router.push('/Project2');
+          this.$router.push('/Project2'); // 로그인 성공 시 리다이렉트
         }
       } catch (error) {
         console.error('카카오 로그인 처리 중 오류:', error);
-        toast.error('카카오 로그인에 실패했습니다.');
       }
     },
     kakaoLogin() {
@@ -196,14 +186,6 @@ export default {
       const kakaoAuthUrl = 
         `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code`;
       window.location.href = kakaoAuthUrl;
-    },
-    handleLogin() {
-      // 이메일/비밀번호로 로그인 하는 일반 로직
-      console.log('handleLogin() 호출됨');
-    },
-    handleRegister() {
-      // 회원가입 로직
-      console.log('handleRegister() 호출됨');
     }
   }
 };
