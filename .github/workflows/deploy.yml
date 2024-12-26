@@ -13,25 +13,29 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      # 3. Node.js 환경 설정
+      # 2. Node.js 환경 설정
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      
+      # 3. ENV_PROD 환경 변수로 .env.prod 파일 생성
+      - name: Create .env.prod
+        run: echo "${{ secrets.ENV_PROD }}" > ./project2/.env.prod
       
       # 4. 패키지 설치
       - name: Install dependencies
         working-directory: ./project2
         run: npm install
       
-      # 6. 빌드 실행
+      # 5. 빌드 실행
       - name: Build Page
         working-directory: ./project2
-        run: npm run build
+        run: npm run build:prod
         env:
           NODE_ENV: production
       
-      # 7. gh-pages로 배포
+      # 6. gh-pages로 배포
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
