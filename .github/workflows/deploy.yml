@@ -22,7 +22,7 @@ jobs:
       # 3. ENV_PROD 환경 변수로 .env.prod 파일 생성
       - name: Create .env.prod
         run: echo "${{ secrets.ENV_PROD }}" > ./project2/.env.prod
-      
+
       # 4. 패키지 설치 
       - name: Install dependencies
         working-directory: ./project2
