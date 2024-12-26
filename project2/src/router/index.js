@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter,  createWebHashHistory } from 'vue-router';
 import HomeComponent from '../components/home/HomeComponent.vue';
 import HomeMainComponent from '../components/home/main/HomeMainComponent.vue';
 import SignInComponent from '../components/sign-in/SignInComponent.vue';
@@ -33,13 +33,13 @@ const routes = [
     meta: { requiresAuth: true }, // 인증이 필요한 라우트
   },
   {
-    path: '/Project2/signin', 
+    path: '/signin', 
     component: SignInComponent,
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
 });
 
@@ -50,7 +50,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (!isLoggedIn) {
       toast('로그인이 필요합니다.', { type: 'error', autoClose: 3000 })
-      return next('/Project2/signin'); // 로그인 페이지로 리다이렉트
+      return next('/signin'); // 로그인 페이지로 리다이렉트
     }
   }
   next(); // 라우트 이동 허용
