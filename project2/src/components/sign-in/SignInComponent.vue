@@ -126,7 +126,7 @@ export default {
     }
   },
 
-  created() {
+  created () {
     // 1) 인가 코드가 URL에 있는지 확인
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("code")) {
