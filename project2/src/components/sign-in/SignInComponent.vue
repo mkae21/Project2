@@ -259,7 +259,7 @@ export default {
         // 액세스 토큰 저장
         this.kakaoAccessToken = response.data.access_token;
         localStorage.setItem('kakaoAccessToken', this.kakaoAccessToken);
-
+        
         // 3) 액세스 토큰으로 사용자 정보 가져오기
         await this.getKakaoUserInfo();
       } catch (err) {

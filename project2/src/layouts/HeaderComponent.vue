@@ -118,23 +118,20 @@ export default {
     const handleLogout = async () => {
       console.log("로그아웃 버튼이 클릭되었습니다.")
       try {
-        // 1) store.state.kakaoAccessToken 있는지 확인
-        if (!store.state.kakaoAccessToken) {
-          // 일반 로컬 로그아웃 처리
-          logOut()
-        } else {
-          // 카카오 로그아웃
-          await store.dispatch('kakaoLogout')
-        }
+        // 1) 일반 로컬 로그아웃
+        logOut()
 
-        // 로컬 스토리지에서도 로그인 상태 해제
+        // 2) 카카오 로그아웃
+        await store.dispatch('kakaoLogout')
+
+        // 추가 후처리
         isLoggedIn.value = false
         kakaoName.value = ""
         toast("로그아웃 완료", { type: "success" })
       } catch (err) {
         console.error("로그아웃 중 오류 발생:", err)
       }
-}
+    }
 
     onMounted(() => {
       window.addEventListener('scroll', handleScroll)

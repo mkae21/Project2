@@ -6,9 +6,8 @@ export default createStore({
     kakaoAccessToken: localStorage.getItem("kakaoAccessToken"),
   },
   mutations: {
-    clearKakaoAccessToken(state) {
-      state.kakaoAccessToken = null;
-      localStorage.clear();
+    setKakaoAccessToken(state, token) {
+      state.kakaoAccessToken = token
     },
   },
   actions: {
@@ -26,7 +25,7 @@ export default createStore({
           }
         );
         console.log("[카카오 로그아웃 성공]");
-        commit("clearKakaoAccessToken");
+        commit("setKakaoAccessToken", null);
       } catch (err) {
         console.error("카카오 로그아웃 오류:", err);
       }
