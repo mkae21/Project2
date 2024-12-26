@@ -31,7 +31,7 @@ jobs:
       # 5. 빌드 실행
       - name: Build Page
         working-directory: ./project2
-        run: npm run build:prod
+        run: npm run build
         env:
           NODE_ENV: production
       
