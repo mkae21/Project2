@@ -1,6 +1,6 @@
 <template>
   <!-- (기존 template 그대로) -->
-  <div>
+  <div> 
     <div class="bg-image"></div>
     <div class="container">
       <div id="phone">
