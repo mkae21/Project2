@@ -7,7 +7,7 @@ module.exports = defineConfig({
     config.module.rules.delete("eslint");
   },
   lintOnSave: false,
-  publicPath: '/Project2',
+  publicPath: '/Project2/',
   outputDir: 'dist',
 
   // 개발 서버 설정 추가
