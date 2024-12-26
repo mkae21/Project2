@@ -33,7 +33,7 @@ const routes = [
     meta: { requiresAuth: true }, // 인증이 필요한 라우트
   },
   {
-    path: '/signin', 
+    path: '/Project2/signin', 
     component: SignInComponent,
   },
 ];
